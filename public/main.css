@@ -1,0 +1,479 @@
+/* used in the footer for every page */
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.content-wrap {
+    padding-bottom: 24rem;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 24rem;
+}
+
+.github-link {
+    opacity: 0.75;
+}
+
+@media only screen and (max-width:  1050px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25rem;
+    }
+    .content-wrap {
+        padding-bottom: 25rem;
+    }
+}
+
+@media only screen and (max-width:  800px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 10px;
+        height: 16rem;
+    }
+    .content-wrap {
+        padding-bottom: 16rem;
+    }
+}
+
+@media only screen and (max-width:  767px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 10px;
+        height: 24rem;
+    }
+    .content-wrap {
+        padding-bottom: 24rem;
+    }
+}
+
+@media only screen and (max-width:  510px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 10px;
+        height: 24rem;
+    }
+    .content-wrap {
+        padding-bottom: 24rem;
+    }
+}
+
+@media only screen and (max-width:  450px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 10px;
+        height: 25rem;
+    }
+    .content-wrap {
+        padding-bottom: 25rem;
+    }
+}
+
+@media only screen and (max-width:  325px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 10px;
+        height: 26rem;
+    }
+    .content-wrap {
+        padding-bottom: 26rem;
+    }
+}
+
+/* for search user page */
+
+.search-profile {
+    width: 80px;
+    height: 70px;
+}
+
+.filter-btn {
+    margin-top: 2rem;
+}
+
+@media only screen and (max-width:  800px) {
+    .search-profile-descrip {
+        font-size: 13px;
+    }
+    .search-profile {
+        width: 75px;
+        height: 65px;
+    }
+}
+
+@media only screen and (max-width:  510px) {
+    .search-profile-descrip {
+        font-size: 12px;
+    }
+    .search-profile {
+        width: 70px;
+        height: 60px;
+    }
+    .filter-btn {
+        margin-top: 0rem;
+    }
+    .advanced-heading {
+        font-size: 20px;
+    }
+    .label-text {
+        font-size: 15px;
+    }
+    .custom-username {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width:  350px) {
+    .search-profile-descrip {
+        font-size: 11px;
+    }
+    .search-profile {
+        width: 65px;
+        height: 55px;
+    }
+    .filter-btn {
+        margin-top: 0rem;
+    }
+    .advanced-heading {
+        font-size: 19px;
+    }
+    .label-text {
+        font-size: 13px;
+    }
+    .custom-username {
+        font-size: 12px;
+    }
+}
+
+/* for notifications page */
+
+#notifBox, #oldNotifBox, #notifHead, #oldNotifHead {
+    width: 80%;
+}
+
+/* User profile page */
+
+.custom-margin-pfp {
+    margin-top: 2rem;
+}
+
+.custom-margin-bio {
+    margin-left: 4rem;
+}
+
+.img-main {
+    height: 180px;
+    width: 180px;
+}
+
+.img-prof {
+    height: 100px;
+    width: 100px;
+}
+
+#stats {
+    font-size: 13px;
+    height: 25px;
+}
+
+.statfont {
+    font-size: 17px;
+}
+
+.statsmall {
+    font-size: 14px;;
+}
+
+.bio-pre {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	hyphens: auto;
+}
+
+@media only screen and (max-width:  1050px) {
+    .img-main {
+        height: 180px;
+        width: 180px;
+    }
+    .img-prof {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+@media only screen and (max-width:  800px) {
+    .img-main {
+        height: 160px;
+        width: 160px;
+    }
+    .img-prof {
+        height: 100px;
+        width: 100px;
+    }
+    .custom-margin-pfp {
+        margin-top: 1rem;
+    }
+    .custom-margin-bio {
+        margin-left: 3rem;
+    }
+}
+
+@media only screen and (max-width:  510px) {
+    .img-main {
+        height: 140px;
+        width: 140px;
+    }
+    .img-prof {
+        height: 90px;
+        width: 90px;
+    }
+    .custom-text-name {
+        font-size: 22px;
+    }
+    .custom-text-rating {
+        font-size: 15px;
+    }
+    .custom-text-bio {
+        font-size: 15px;
+    }
+    .custom-margin-pfp {
+        margin-top: 0.5rem;
+    }
+    .custom-margin-bio {
+        margin-left: 3rem;
+    }
+}
+
+@media only screen and (max-width:  450px) {
+    .img-main {
+        height: 90px;
+        width: 90px;
+    }
+    .img-prof {
+        height: 60px;
+        width: 60px;
+    }
+    .custom-text-name {
+        font-size: 20px;
+    }
+    .custom-text-rating {
+        font-size: 14px;
+    }
+    .custom-text-bio {
+        font-size: 14px;
+    }
+    .custom-margin-pfp {
+        margin-top: 0rem;
+    }
+    .custom-margin-bio {
+        margin-left: 2rem;
+    }
+}
+
+@media only screen and (max-width:  325px) {
+    .img-main {
+        height: 90px;
+        width: 90px;
+    }
+    .img-prof {
+        height: 55px;
+        width: 55px;
+    }
+    .custom-text-name {
+        font-size: 13px;
+    }
+    .custom-text-rating {
+        font-size: 11px;
+    }
+    .custom-text-bio {
+        font-size: 11px;
+    }
+    .custom-margin-pfp {
+        margin-top: 0rem;
+    }
+    .custom-margin-bio {
+        margin-left: 1rem;
+    }
+}
+
+/* Chat page */
+
+#chatBody {
+    background-color: #55b9f3;
+}
+
+.chat-box {
+    -moz-box-shadow:    inset 0 0 4px #000000;
+    -webkit-box-shadow: inset 0 0 4px #000000;
+    box-shadow:         inset 0 0 4px #000000;
+    height: 50%;
+    overflow-y: auto;
+}
+
+.task-box {
+    -moz-box-shadow:    0 2px #000000;
+    -webkit-box-shadow: 0 0 2px #000000;
+    box-shadow:         0 0 2px #000000;
+}
+
+#messageText {
+    overflow: auto;
+    width: 40%;
+    background-color: #55b9f3;
+}
+
+#messageText {
+    border-left: 5px solid blue;
+}
+
+#text-send {
+    border-right: 4px solid green;
+    padding-right: 3px;
+    border-radius: 3px;
+    /* background-color: lightgrey; */
+    margin-left: 4rem;
+}
+
+#text-receive {
+    border-left: 4px solid orange;
+    padding-left: 3px;
+    border-radius: 3px;
+    /* background-color: lightgrey; */
+}
+
+.msgInfo {
+    font-size: 12px;
+    color: grey;
+}
+
+@media only screen and (max-width:  510px) {
+    .chat-box {
+        height: 72vh;
+    }
+}
+
+@media only screen and (max-width:  375px) {
+    .chat-box {
+        height: 74vh;
+    }
+}
+
+@media only screen and (max-width:  370px) {
+    .chat-box {
+        height: 68vh;
+    }
+}
+
+@media only screen and (max-width:  325px) {
+    .chat-box {
+        height: 63vh;
+    }
+}
+
+/* Other user page */
+
+.friends-images {
+    width: 100%;
+    height: 165px;
+}
+
+.connect-heading {
+    font-size: 34px;
+}
+
+.remove-padd {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.modal-image {
+    width: 100%;
+    max-width: 700px;
+}
+
+.colorhappy {
+    background-color: rgba(0, 153, 255, 0.3);
+}
+
+@media only screen and (max-width: 767px) {
+    .friends-images {
+        height: 105px;
+    }
+}
+
+@media only screen and (max-width:  575px) {
+    .friends-images {
+        width: 80%;
+        height: 160px;
+        margin-bottom: 1rem;
+    }
+    .connect-heading {
+        font-size: 20px;
+    }
+    .connect-paragraph {
+        font-size: 11px;
+    }
+    .btn-resize {
+        font-size: 11px;
+        margin-right: 1rem;
+    }
+    .para-re {
+        font-size: 14px;
+    }
+    .about-heading {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width:  325px) {
+    .friends-images {
+        width: 100%;
+        height: 160px;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Contacts page */
+
+/* uses css from the search page */
+
+
+
+/* Template */
+
+/* @media only screen and (max-width:  1050px) {
+    
+}
+
+@media only screen and (max-width:  800px) {
+
+}
+
+@media only screen and (max-width:  510px) {
+
+}
+
+@media only screen and (max-width:  450px) {
+
+}
+
+@media only screen and (max-width:  325px) {
+
+} */

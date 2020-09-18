@@ -1,0 +1,152 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Matcha | Search a user
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
+        link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        link(rel="stylesheet", href="main.css")
+
+        script.
+            function submitform(id) {
+                document.forms[id].submit();
+            }
+            function submitlink(param) {
+                document.getElementById(param).submit();
+            }
+
+    body
+        .page-container
+            .content-wrap
+                header.mb-3
+                    nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+                        a.navbar-brand(href="home") MATCHA
+
+                        //- burger button on phone screens
+                        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSuppportedContent")
+                            span.navbar-toggler-icon
+
+                        //- targeted info by button
+                        #navbarSuppportedContent.collapse.navbar-collapse
+                            ul.navbar-nav.ml-auto
+                                li.nav-item
+                                    a#notifBell.nav-link(href="notifications")
+                                li.nav-item
+                                    a.nav-link(href="contacts") Chats
+                                li.nav-item
+                                    a.nav-link(href="profile") Profile
+                                li.nav-item
+                                    a.nav-link(href="logout") Logout
+                                li.nav-item
+                                    a.nav-link(href="home") Home
+
+                //- advanced search options: age, fame rating, location, one/more tags
+                .container-fluid
+                    h4.advanced-heading.ml-3.mb-3 Advanced Search
+                    .row.ml-0.mr-0
+                        .col-md-2
+                            .form-group
+                                label.label-text.mr-1(for="age") Age gap:
+                                input#age.form-control.pl-1(type="number", name="age", placeholder="5", min=0, max=100)
+                        .col-md-2
+                            .form-group
+                                label.label-text.mr-1(for="rating") Fame rating gap:
+                                input#rating.form-control.pl-1(type="number", name="rating", placeholder="5", min=0, max=1000)
+                        .col-md-2
+                            .form-group
+                                label.label-text.mr-1(for="location") Specify a location:
+                                input#location.form-control.pl-1(type="text", name="location", placeholder="Cape Town", maxlength="30")
+                        .col-md-4
+                            h6 Include various tags
+                            //- iterating through each tag and creating a new input array of all tags
+                            .form-group.mb-0
+                                if tags
+                                    for singleTag in tags
+                                        .custom-control.custom-checkbox
+                                            input.custom-control-input(type="checkbox", name="color[]", id=singleTag, value= singleTag)
+                                            label.label-text.custom-control-label(for=singleTag)= singleTag
+                            small.form-text.text-muted
+                                | To add/see more tags appear here make sure you have added them to your 
+                                a(href="profile") profile 
+                                | first
+                        .col-md-2
+                            input#advancedBtn.btn.btn-dark(type="submit", name="advanced_search", value="Match!")
+
+                    hr
+                //- by default show users from same area & ONLY correct sex (in bi/non-specified case match with all): this can be sorted by age, location, fame rating, common tags
+                .container-fluid
+                    .row.mr-0.ml-0
+                        .col-md-4
+                            .form-group
+                                label.label-text(for="slctFltr") Filter by
+                                select#slctFltr.form-control(name="filter")
+                                    option(value="age") Age
+                                    option(value="location") Location
+                                    option(value="fame") Fame Rating
+                                    option(value="tags") Tags in common (full match)
+                                    option(value="partial") Tags in common (partial match)
+                                small.form-text.text-muted.mb-0 (matches of the selected option will only be shown)
+                        .col-md-2.pl-0.pr-0
+                            input#filterBtn.btn.btn-dark.filter-btn.mr-2(type="submit", name="filter_all", value="Filter")
+                            input#clearFilterBtn.btn.btn-dark.filter-btn(type="button", name="clearFilters", value="Remove filter")
+                        .col-md-2
+                            .form-group
+                                label.label-text(for="slctSort") Sort by
+                                select#slctSort.form-control(name="sort")
+                                    option(value="age") Age
+                                    option(value="location") Location
+                                    option(value="fame") Fame Rating
+                                    option(value="tags") Tags in common
+                        .col-md-2
+                            .form-group
+                                label.label-text(for="slctOrdr") Order
+                                select#slctOrdr.form-control(name="order")
+                                    option(value="ascending") Ascending
+                                    option(value="descending") Descending
+                        .col-md-2
+                            input#sortBtn.btn.btn-dark.filter-btn(type="submit", name="sort_all", value="Sort")
+
+                    hr
+                //- search results
+                #filterStr
+                .container-fluid
+                    #searchResultsBox
+
+            //- footer
+            footer.page-footer.font-small.mdb-color.bg-light.text-dark
+                .container.text-center.text-md-left
+                    .row.text-center.text-md-left.mt-3.pb-1
+                        .col-md-6.col-lg-5.col-xl-4.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold About us
+                            p
+                                | In this day and age meeting new people and forming relationships is more difficult than ever,
+                                | wether it be from a busy job or a lack of opportunity. Matcha's vision is to offer young and old people the unique opportunity to meet
+                                | that potential special partner in life, all at your fingertips!
+                                | But remember, there's more to love than just emojis and midnight texts.
+                        .col-md-5.col-lg-4.col-xl-3.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold Get In Touch
+                            p
+                                a.text-info(href="http://instagram.com/jadon.hansen") Instagram
+                            p
+                                a.text-info(href="http://facebook.com/jadon.hansen.56") Facebook
+                            p
+                                a.text-info(href="https://mail.google.com/mail/u/0/#inbox?compose=new") ftmatcha@gmail.com
+                    hr
+                    .row
+                        .col.text-center
+                            p
+                                | &copy; 2019 Matcha. All rights reserved.
+                            a.text-info.github-link(href='https://jadonhansen')
+                                strong  @jadonhansen
+                            a.text-info.github-link(href='https://gstrauss42')
+                                strong  @gstrauss
+
+        script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+        script(src="https://kit.fontawesome.com/17df3da6b8.js", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-1.11.1.js")
+        script(src="./js/load_notifs.js")
+        script(src='./js/load_searches.js')

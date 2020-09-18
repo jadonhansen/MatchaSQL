@@ -1,0 +1,436 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Matcha | Profile
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
+        link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        link(rel="stylesheet", href="main.css")
+
+        script.
+            function submitlink(param) {
+                document.getElementById(param).submit();
+            }
+
+    body
+        //- modal for bio change
+        #modalBio.modal.fade(tabindex="-1", role="dialog", aria-labelledby="bioModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#bioModalLabel.modal-title Edit your Bio
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="update_profile", method="post")
+                                .form-group
+                                    if bio
+                                        textarea#bio_text.form-control(type="text", name="bio", rows="7")= bio
+                                    else
+                                        textarea#bio_text.form-control(type="text", name="bio", rows="7")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="bio_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for viewing stats
+        #modalStats.modal.fade.bd-example-modal-lg(tabindex="-1", role="dialog", aria-labelledby="statsModalLabel", aria-hidden="true")
+            .modal-dialog.modal-lg(role="document")
+                .modal-content
+                    .modal-header
+                        h5#statsModalLabel.modal-title Profile Statistics
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        u
+                            h5 Viewing stats
+                        .row.ml-0.mr-0
+                            .col-md-5
+                                p.statfont You have viewed:
+                                    if viewed.length !== 0
+                                        for data in viewed
+                                            p.statsmall.ml-2= data
+                                    else
+                                        p.statsmall.ml-2 None
+                            .col
+                                p.statfont Your profile was viewed by:
+                                    if views.length !== 0
+                                        for info in views
+                                            p.statsmall.ml-2= info
+                                    else
+                                        p.statsmall.ml-2 No views
+                        u
+                            h5 Like stats
+                        .row.ml-0.mr-0
+                            .col-md-5
+                                p.statfont You have liked:
+                                    if likes.length !== 0
+                                        for paper in likes
+                                            p.statsmall.ml-2= paper
+                                    else
+                                        p.statsmall.ml-2 None
+                            .col
+                                p.statfont Your profile was liked by:
+                                    if liked.length !== 0
+                                        for fax in liked
+                                            p.statsmall.ml-2= fax
+                                    else
+                                        p.statsmall.ml-2 No likes
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for main profile image change
+        #modalMain.modal.fade(tabindex="-1", role="dialog", aria-labelledby="mainModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#mainModalLabel.modal-title Change this online image
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="upload_picture", method="post", enctype="multipart/form-data")
+                                .form-group
+                                    input#main_img(type="file", name="picture", accept="image/*")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="main_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for TWO profile image change
+        #modalTwo.modal.fade(tabindex="-1", role="dialog", aria-labelledby="twoModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#twoModalLabel.modal-title Change this online image
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="upload_picture", method="post", enctype="multipart/form-data")
+                                .form-group
+                                    input#two_img(type="file", name="picture", accept="image/*")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="two_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for THREE profile image change
+        #modalThree.modal.fade(tabindex="-1", role="dialog", aria-labelledby="threeModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#ThreeModalLabel.modal-title Change this online image
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="upload_picture", method="post", enctype="multipart/form-data")
+                                .form-group
+                                    input#three_img(type="file", name="picture", accept="image/*")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="three_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for FOUR profile image change
+        #modalFour.modal.fade(tabindex="-1", role="dialog", aria-labelledby="fourModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#fourModalLabel.modal-title Change this online image
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="upload_picture", method="post", enctype="multipart/form-data")
+                                .form-group
+                                    input#four_img(type="file", name="picture", accept="image/*")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="four_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for FIVE profile image change
+        #modalFive.modal.fade(tabindex="-1", role="dialog", aria-labelledby="fiveModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#fiveModalLabel.modal-title Change this online image
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="upload_picture", method="post", enctype="multipart/form-data")
+                                .form-group
+                                    input#five_img(type="file", name="picture", accept="image/*")
+                                .form-group
+                                    button.btn.btn-primary(type="submit", name="five_save") Save Changes	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        .page-container
+            .content-wrap
+                header
+                    nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+                        a.navbar-brand(href="home") MATCHA
+
+                        //- burger button on phone screens
+                        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSuppportedContent")
+                            span.navbar-toggler-icon
+                            
+                        //- targeted info by button
+                        #navbarSuppportedContent.collapse.navbar-collapse
+                            ul.navbar-nav.ml-auto
+                                li.nav-item
+                                    a#notifBell.nav-link(href="notifications")
+                                li.nav-item
+                                    a.nav-link(href="contacts") Chats
+                                li.nav-item
+                                    a.nav-link(href="search") Match Me!
+                                li.nav-item
+                                    a.nav-link(href="logout") Logout
+                                li.nav-item
+                                    a.nav-link(href="home") Home
+
+                if !one
+                    #profile-notif.row-md-12.ml-0.mr-0.mb-0
+                        p.bg-danger.text-center.pl-2.pr-2.pt-1.pb-1 Please upload at least one profile image for other users to be able to like and connect with your profile.
+
+                //- profile info
+                .container
+                    .container-fluid.mb-5
+                        .row.mr-0.ml-0.custom-margin-pfp
+                            .col-md-2
+                                if one
+                                    img#main-profile-img.rounded-circle.img-main.mt-3(src= `data:image/*;base64,${one}`, alt="main-profile", data-toggle="modal", data-target="#modalMain")
+                                else
+                                    img#main-profile-img.rounded-circle.img-main.mt-3(src="user.jpg", alt="main-profile", data-toggle="modal", data-target="#modalMain")
+                            .col-md-9.mt-4.custom-margin-bio
+                                strong
+                                    h3.custom-text-name= username
+                                h6.custom-text-rating= rating + ' popularity rating' 
+                                i#alter-bio.fas.fa-cog.mr-2(data-toggle="modal", data-target="#modalBio")
+                                button#stats.badge.badge-light.pt-0.pb-0.mb-1(name="stats", data-toggle="modal", data-target="#modalStats") View stats
+                                if bio
+                                    .bio-pre
+                                        span.custom-text-bio= bio
+                                else
+                                    p.custom-text-bio Create a bio by clicking on the gear icon
+
+                    //- other profile images
+                    .container-fluid.mb-5
+                        .row.mr-0.ml-0
+                            .col-md-0
+                                if one
+                                    if two
+                                        img#profile-img-two.img-fluid.rounded-circle.img-prof.mr-2(src= `data:image/*;base64,${two}`, alt="user_img2", data-toggle="modal", data-target="#modalTwo")
+                                    else
+                                        img#profile-img-two.img-fluid.rounded-circle.img-prof.mr-2(src="temp.png", alt="user_img2", data-toggle="modal", data-target="#modalTwo")
+                            .col-md-0
+                                if one && two
+                                    if three
+                                        img#profile-img-three.img-fluid.rounded-circle.img-prof.mr-2(src= `data:image/*;base64,${three}`, alt="user_img3", data-toggle="modal", data-target="#modalThree")
+                                    else
+                                        img#profile-img-three.img-fluid.rounded-circle.img-prof.mr-2(src="temp.png", alt="user_img3", data-toggle="modal", data-target="#modalThree")
+                            .col-md-0
+                                if one && two && three
+                                    if four
+                                        img#profile-img-four.img-fluid.rounded-circle.img-prof.mr-2(src= `data:image/*;base64,${four}`, alt="user_img4", data-toggle="modal", data-target="#modalFour")
+                                    else
+                                        img#profile-img-four.img-fluid.rounded-circle.img-prof.mr-2(src="temp.png", alt="user_img4", data-toggle="modal", data-target="#modalFour")
+                            .col-md-0
+                                if one && two && three && four
+                                    if five
+                                        img#profile-img-five.img-fluid.rounded-circle.img-prof.mr-2(src= `data:image/*;base64,${five}`, alt="user_img5", data-toggle="modal", data-target="#modalFive")
+                                    else
+                                        img#profile-img-five.img-fluid.rounded-circle.img-prof.mr-2(src="temp.png", alt="user_img5", data-toggle="modal", data-target="#modalFive")
+
+                    //- more options, tab view
+                    .container-fluid.mb-4
+                        #nav-tab.nav.nav-tabs(role='tablist')
+                            a#nav-info-tab.nav-item.nav-link.active(data-toggle='tab' href='#nav-info' role='tab' aria-controls='nav-info' aria-selected='true') Current Info
+                            a#nav-home-tab.nav-item.nav-link(data-toggle='tab' href='#nav-home' role='tab' aria-controls='nav-home' aria-selected='false') Associativity
+                            a#nav-profile-tab.nav-item.nav-link(data-toggle='tab' href='#nav-profile' role='tab' aria-controls='nav-profile' aria-selected='false') Advanced
+                            a#nav-contact-tab.nav-item.nav-link(data-toggle='tab' href='#nav-contact' role='tab' aria-controls='nav-contact' aria-selected='false') Location
+                        #nav-tabContent.tab-content
+
+                            #nav-info.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-info-tab')
+                                //- current info
+                                p.mt-2.ml-1= "Name Surname: " + name + " " + surname
+                                p.ml-1= "Age: " + age
+                                p.ml-1= "Gender: " + gender
+                                p.ml-1= "Preference: " + prefferances
+                                if location_status == 1
+                                    p.ml-1 Location usage: Yes
+                                else
+                                    p.ml-1 Location usage: No
+                                p.ml-1= "Location: " + location
+                                p.ml-1= "Email: " + email
+ 
+                            #nav-home.tab-pane.fade(role='tabpanel' aria-labelledby='nav-home-tab')
+                                //- modifying gender and preference
+                                form(action="/update_profile", method="post")
+                                    .form-row
+                                        .col-md-5
+                                            label.mt-2.ml-1(for="selectGender") Gender
+                                            select#selectGender.form-control.mb-2.ml-1(name="gender_select")
+                                                if gender === "Male"
+                                                    option(value="Male", selected="selected") Male
+                                                else
+                                                    option(value="Male") Male
+                                                if gender === "Female"
+                                                    option(value="Female", selected="selected") Female
+                                                else
+                                                    option(value="Female") Female
+                                                if gender === "Other"
+                                                    option(value="Other", selected="selected") Other
+                                                else
+                                                    option(value="Other") Other
+                                    .form-row
+                                        .col-md-5
+                                            label.ml-1(for="selectPref") Partner Preference
+                                            select#selectPref.form-control.mb-3.ml-1(name="pref_select")
+                                                if prefferances === "Male"
+                                                    option(value="Male", selected="selected") Male
+                                                else
+                                                    option(value="Male") Male
+                                                if prefferances === "Female"
+                                                    option(value="Female", selected="selected") Female
+                                                else
+                                                    option(value="Female") Female
+                                                if prefferances === "Bi-Sexual"
+                                                    option(value="Bi-Sexual", selected="selected") Bi-Sexual
+                                                else
+                                                    option(value="Bi-Sexual") Bi-Sexual
+                                    .form-row.mb-1
+                                        input.btn.btn-dark.ml-2(type="submit", name="submit_pref", value="Save Changes")
+
+                            #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                                //- modifying details
+                                form(action="/update_profile", method="post")
+                                    .form-group
+                                        label.ml-2.mr-1.mt-4(for="name") Name:
+                                        input#name.form-control.form-control-sm.pl-1.ml-2.col-md-4(type="text", name="name", placeholder= name)
+                                    .form-group
+                                        label.ml-2.mr-1(for="surname") Surname:
+                                        input#surname.form-control.form-control-sm.pl-1.ml-2.col-md-4(type="text", name="surname", placeholder= surname)
+                                    .form-group
+                                        label.ml-2.mr-1(for="username") Username:
+                                        input#username.form-control.form-control-sm.pl-1.ml-2.col-md-4(type="text", name="username", placeholder= username)
+                                    .form-group
+                                        label.ml-2.mr-1(for="age") Age:
+                                        input#age.form-control.form-control-sm.pl-1.ml-2.col-md-4(type="number", name="age", placeholder= age)
+                                    .form-group.mb-4
+                                        input.btn.btn-dark.ml-1(type="submit", name="submit_details", value="Save Changes")
+                                    hr
+                                form(action="/update_profile/update_email", method="post")
+                                    .form-group
+                                        label.ml-2.mr-1(for="email") Email Address:
+                                        input#email.form-control.form-control-sm.pl-1.ml-1.col-md-4(type="email", name="email", placeholder= email required)
+                                    .form-group.mb-4
+                                        input.btn.btn-dark.ml-1(type="submit", name="submit_email", value="Update Email")
+                                    hr
+                                form(action="/update_profile/update_password", method="post")
+                                    .form-group
+                                        label.ml-2.mr-1(for="password") New Password:
+                                        input#password.form-control.form-control-sm.pl-1.ml-1.col-md-4(type="password", name="pass", minlength="8" required)
+                                        small#passwordHelpBlock.form-text.text-muted.ml-2
+                                            | Your password must be at least 8 characters long and must not contain spaces.
+                                    .form-group
+                                        label.mr-2.ml-1(for="repeat") Repeat Password:
+                                        input#repeat.form-control.form-control-sm.pl-1.ml-1.col-md-4(type="password", name="repeat_pass", minlength="8" required)
+                                    .form-group
+                                        input.btn.btn-dark.ml-1(type="submit", name="submit_password", value="Update Password")
+
+                            #nav-contact.tab-pane.fade(role='tabpanel' aria-labelledby='nav-contact-tab')
+                                //- modify location yes/no
+                                form#lock(action="update_profile", method="post")
+                                    .form-group
+                                        .custom-control.custom-switch.ml-1
+                                            if location_status == 1
+                                                input(type="hidden", name="location_status", value=location_status)
+                                                input#locat.custom-control-input(type="checkbox", name="location_status_check", value=0, checked, onChange="this.form.submit();")
+                                            else
+                                                input(type="hidden", name="location_status", value=location_status)
+                                                input#locat.custom-control-input(type="checkbox", name="location_status_check", value=1, onChange="this.form.submit();")
+                                            label.custom-control-label.mt-2(for="locat") Location can be viewed by others
+                                form(action="profile/update_location", method="post")
+                                    .form-group
+                                        label.mr-2.ml-1(for="location") Current location:
+                                        input.form-control.form-control-sm.pl-1.ml-1.col-md-4(type="text", name="location_text", value= location, placeholder="City, Region, Country, Postal Code" required)
+                                    .form-group
+                                        input.btn.btn-dark.ml-1(type="submit", name="submit_location", value="Save Location")
+
+                    hr
+
+                    //- add interest tags
+                    .container-fluid.mb-5.mt-2
+                        h5 Add an interest tag
+                        form(action="add_tag", method="post")
+                            .form-row.align-items-center
+                                .col-auto
+                                    label.sr-only(for="inlineFormInputGroup") Tag
+                                    .input-group.mb-2
+                                        .input-group-prepend
+                                            .input-group-text #
+                                        input#inlineFormInputGroup.form-control(type="text", name="tag", placeholder="interest tag" required)
+                                .col-auto
+                                        button.btn.btn-primary.mb-2(type="submit") Add tag
+                        if tags.length !== 0
+                            p.d-inline= "Current tags: "
+                            for gold in tags
+                                form(action="remove_tag", method="post")
+                                    input(type="hidden", name="tag", value= gold)
+                                    p.d-inline.mr-0= '#' + gold + " "
+                                        button.close.d-inline(type="submit", name="delete_tag", aria-label="Close")
+                                            span(aria-hidden="true") &times;
+
+                        else
+                            p Current tags: You have no tags related to your profile.
+
+                //- to avoid the warning in the console
+                if !one
+                    #profile-img-one
+                if !two
+                    #profile-img-two
+                if !three
+                    #profile-img-three
+                if !four
+                    #profile-img-four
+                if !five
+                    #profile-img-five
+
+            //- footer
+            footer.page-footer.font-small.mdb-color.bg-light.text-dark
+                .container.text-center.text-md-left
+                    .row.text-center.text-md-left.mt-3.pb-1
+                        .col-md-6.col-lg-5.col-xl-4.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold About us
+                            p
+                                | In this day and age meeting new people and forming relationships is more difficult than ever,
+                                | wether it be from a busy job or a lack of opportunity. Matcha's vision is to offer young and old people the unique opportunity to meet
+                                | that potential special partner in life, all at your fingertips!
+                                | But remember, there's more to love than just emojis and midnight texts.
+                        .col-md-5.col-lg-4.col-xl-3.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold Get In Touch
+                            p
+                                a.text-info(href="http://instagram.com/jadon.hansen") Instagram
+                            p
+                                a.text-info(href="http://facebook.com/jadon.hansen.56") Facebook
+                            p
+                                a.text-info(href="https://mail.google.com/mail/u/0/#inbox?compose=new") ftmatcha@gmail.com
+                    hr
+                    .row
+                        .col.text-center
+                            p
+                                | &copy; 2019 Matcha. All rights reserved.
+                            a.text-info.github-link(href='https://jadonhansen')
+                                strong  @jadonhansen
+                            a.text-info.github-link(href='https://gstrauss42')
+                                strong  @gstrauss
+
+        script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+        script(src="https://kit.fontawesome.com/17df3da6b8.js", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-1.11.1.js")
+        script(src="./js/load_notifs.js")
+        script(src="./js/profile.js")

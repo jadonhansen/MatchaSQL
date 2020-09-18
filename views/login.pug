@@ -1,0 +1,93 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Matcha | Login
+        //- styling && script
+        link(rel="stylesheet", href="animate.css")
+        link(rel="stylesheet", href="bootstrap.css")
+        link(rel="stylesheet", href="style_form.css")
+        script(src="/js/modernizr-2.6.2.min.js")
+    body
+        #page
+            nav.gtco-nav
+                .gtco-container
+                    .row
+                        .col-sm-4.col-xs-12
+                            #gtco-logo
+                                a(href="/") 
+                                    | Matcha | Login
+                                    em .
+                        .col-xs-8.text-right.menu-1
+                            ul
+                                li
+                                    a(href="/") Home
+                                li
+                                    a(href="forgot_password") Forgot Passord?
+                                li
+                                    a(href="create") Create account
+
+            header#gtco-header.gtco-cover.gtco-cover-md(role='banner' style='background-image: url(bg.jpg)')
+                .overlay
+                .gtco-container
+                    .row
+                        .col-md-12.col-md-offset-0.text-left
+                            .row.row-mt-15em
+                                .col-md-7.mt-text.animate-box(data-animate-effect='fadeInUp')
+                                    h1 Continue your journey!
+                                .col-md-4.col-md-push-1.animate-box(data-animate-effect='fadeInRight')
+                                    .form-wrap
+                                        .tab
+                                            .tab-content
+                                                .tab-content-inner.active(data-content='signup')
+
+                                                    h3 Login details
+                                                    form(action="login", method="post")
+
+                                                        .row.form-group
+                                                            .col-md-12
+                                                                label(for="usrnam") Username
+                                                                input#usrnam.form-control(type="text", name="username")
+                                                        
+                                                        .row.form-group
+                                                            .col-md-12
+                                                                label(for="password") Password
+                                                                input#password.form-control(type="password", name="password")
+
+                                                        .row.form-group
+                                                            .col-md-12
+                                                                input.btn.btn-primary.btn-block(type="submit" value="Login")
+
+        footer#gtco-footer
+            .gtco-container
+                .row.row-p.b-md
+                    .col-md-4
+                        .gtco-widget
+                            h3 About us
+                            p In this day and age meeting new people and forming relationships is more difficult than ever, 
+                                | wether it be from a busy job or a lack of opportunity. Matcha's vision is to offer young and old people the unique opportunity to meet
+                                | that potential special partner in life, all at your fingertips!
+                                | But remember, there's more to love than just emojis and midnight texts.
+                    .col-md-3.col-md-push-1
+                        .gtco-widget
+                            h3 Get In Touch
+                            ul.gtco-quick-contact
+                                li
+                                    a(href="https://www.facebook.com/jadon.hansen.56") Facebook
+                                li
+                                    a(href="https://mail.google.com/mail/u/0/#inbox?compose=new") ftmatcha@gmail.com
+                                li
+                                    a(href="https://instagram.com/jadon.hansen") Instagram
+                .row.copyright
+                    .col-md-12
+                        p.pull-left
+                            small.block &copy; 2019 Matcha. All Rights Reserved.
+                            small.block Designed by
+                                a(href="http://github.com/jadonhansen")
+                                    |   Jadon Hansen
+
+    script(src='/js/jquery_form.min.js')
+    script(src='/js/jquery.waypoints.min.js')
+    script(src='/js/owl.carousel.min.js')
+    script(src='/js/main_form.js')

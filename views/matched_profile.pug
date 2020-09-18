@@ -1,0 +1,270 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Matcha | Notifications
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
+        link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        link(rel="stylesheet", href="main.css")
+
+        script.
+            function submitlink(param) {
+                document.getElementById(param).submit();
+            }
+
+    body
+        //- modal for further options
+        #modalOptions.modal.fade(tabindex="-1", role="dialog", aria-labelledby="OptModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5#OptModalLabel.modal-title Further options
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                            form(action="matched_profile", method="post")
+                                .form-group
+                                    input(type="hidden", name="_id", value= _id)
+                                    button.btn.btn-primary(type="submit", name="block") Block user
+                            hr
+                            form(action="matched_profile", method="post")
+                                .form-group
+                                    input(type="hidden", name="_id", value= _id)
+                                    input.form-control.mb-2(type="text", name="details", required)
+                                    small.form-text.text-muted.mb-1 Please specify a reason as to why you are reporting this user
+                                    button.btn.btn-primary(type="submit", name="fake") Report as fake user	
+                    .modal-footer
+                        button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+        //- modal for main profile image
+        #main.modal.fade(tabindex="-1", role="dialog", aria-labelledby="mainModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        //- populate their images here
+                        if one
+                            img.modal-image(src= `data:image/*;base64,${one}`, alt="main-profile")
+
+        //- modal for TWO profile image
+        #twoMod.modal.fade(tabindex="-1", role="dialog", aria-labelledby="twoModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        //- populate their images here
+                        if two
+                            img.modal-image(src= `data:image/*;base64,${two}`, alt="main-profile")
+
+        //- modal for THREE profile image
+        #threeMod.modal.fade(tabindex="-1", role="dialog", aria-labelledby="threeModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        //- populate their images here
+                        if three
+                            img.modal-image(src= `data:image/*;base64,${three}`, alt="main-profile")
+
+        //- modal for FOUR profile image
+        #fourMod.modal.fade(tabindex="-1", role="dialog", aria-labelledby="fourModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        //- populate their images here
+                        if four
+                            img.modal-image(src= `data:image/*;base64,${four}`, alt="main-profile")
+
+        //- modal for FIVE profile image
+        #fiveMod.modal.fade(tabindex="-1", role="dialog", aria-labelledby="fiveModalLabel", aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        //- populate their images here
+                        if five
+                            img.modal-image(src= `data:image/*;base64,${five}`, alt="main-profile")
+
+        .page-container.ml-0.mr-0
+            .content-wrap
+                header.mb-3
+                    nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+                        a.navbar-brand(href="home") MATCHA
+
+                        //- burger button on phone screens
+                        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSuppportedContent")
+                            span.navbar-toggler-icon
+
+                        //- targeted info by button
+                        #navbarSuppportedContent.collapse.navbar-collapse
+                            ul.navbar-nav.ml-auto
+                                li.nav-item
+                                    a#notifBell.nav-link(href="notifications")
+                                li.nav-item
+                                    a.nav-link(href="profile") Profile
+                                li.nav-item
+                                    a.nav-link(href="search") Match Me!
+                                li.nav-item
+                                    a.nav-link(href="contacts") Chats
+                                li.nav-item
+                                    a.nav-link(href="logout") Logout
+                                li.nav-item
+                                    a.nav-link(href="home") Home
+
+                //- profile info
+                .container
+                    .container-fluid.mb-5
+                        .row.mr-0.ml-0.custom-margin-pfp
+                            .col-md-2
+                                if one
+                                    img#main-profile-img.rounded-circle.img-main.mt-3(src= `data:image/*;base64,${one}`, alt="main-profile", data-toggle="modal", data-target="#main")
+                                else
+                                    img#main-profile-img.rounded-circle.img-main.mt-3(src="user.jpg", alt="main-profile")
+                            .col-md-9.mt-4.mr-2.custom-margin-bio
+                                .row.mb-2.ml-0.mr-0.pl-0.pr-0
+                                    .col-md-0.mr-3
+                                            strong
+                                                h3.mb-0.pb-0.custom-text-name= username
+                                            if status && status === "online"
+                                                small.text-muted.pt-0.mt-0 online now
+                                            else if status
+                                                small.text-muted.pt-0.mt-0= 'last seen: ' + status
+                                            else
+                                                small.text-muted.pt-0.mt-0= 'new user'
+                                    .col-md-0.mr-1
+                                        if liked == 0 && one
+                                                form(action="matched_profile", method="post")
+                                                    input(type="hidden", name="_id", value= _id)
+                                                    .form-group
+                                                        button.btn.btn-primary.btn-resize(type="submit", name="like") Like
+                                        else if liked == 1
+                                                form(action="matched_profile", method="post")
+                                                    input(type="hidden", name="_id", value= _id)
+                                                    .form-group
+                                                        button.btn.btn-primary.btn-resize(type="submit", name="unlike") Unlike
+                                    .col-md-0
+                                            button#options.btn.btn-primary.btn-resize(data-toggle="modal", data-target="#modalOptions") More
+                                h6.custom-text-rating= rating + ' popularity rating'
+                                .bio-pre
+                                    span.custom-text-bio= bio
+
+                    .container-fluid.mb-4
+                        if connected == 0 && one
+                            .jumbotron.remove-padd
+                                h4.display-4.connect-heading You two are not connected!
+                                p.lead Like this user and receive a like from them to start a connection.
+                        else if connected == 1
+                            .jumbotron.remove-padd.colorhappy
+                                h4.display-4.connect-heading You two are connected!
+                                hr.my-4
+                                p.connect-paragraph Open or start your chat :)
+                                form#viewChat(action="chat", method="post")
+                                    input(type="hidden", name="id", value= _id)
+                                    input.btn.btn-primary.btn-resize(type="submit", name="chat" , value="Chat")
+                        else
+                            .jumbotron.remove-padd
+                                h4.display-4.connect-heading You two are not connected!
+                                p.lead This user requires at least one image for you to be able to connect with them!
+
+                    .container-fluid.mb-4
+                        if two
+                            h4= name + "'" + "s images"
+                            .row.ml-0.mr-0
+                                .col-sm-3.col-md-3.pl-0.pr-1
+                                    if one
+                                        if two
+                                            img#profile-img-two.friends-images(src= `data:image/*;base64,${two}`, alt="img-two", data-toggle="modal", data-target="#twoMod")
+                                .col-sm-3.col-md-3.pl-0.pr-1
+                                    if one && two
+                                        if three
+                                            img#profile-img-three.friends-images(src= `data:image/*;base64,${three}`, alt="img-three", data-toggle="modal", data-target="#threeMod")
+                                .col-sm-3.col-md-3.pl-0.pr-1
+                                    if one && two && three
+                                        if four
+                                            img#profile-img-four.friends-images(src= `data:image/*;base64,${four}`, alt="img-four", data-toggle="modal", data-target="#fourMod")
+                                .col-sm-3.col-md-3.pl-0.pr-1
+                                    if one && two && three && four
+                                        if five
+                                            img#profile-img-five.friends-images(src= `data:image/*;base64,${five}`, alt="img-five", data-toggle="modal", data-target="#fiveMod")
+
+                    .container-fluid.mb-4
+                        h5.about-heading About Me
+                        p.mb-1.pl-2.para-re= 'Name and Surname: ' + name + ' ' + surname
+                        p.mb-1.pl-2.para-re= 'Gender: ' + gender
+                        p.mb-1.pl-2.para-re= 'Looking for: ' + prefferances
+                        p.mb-1.pl-2.para-re= 'Age: ' + age
+                        p.mb-1.pl-2.para-re.d-inline= "Tags: "
+                        if tags.length > 0
+                            for gold in tags
+                                p.d-inline= '#' + gold + " "
+                        else
+                            p.d-inline= "None"
+                        if location_status == 1
+                            p.mb-1.pl-2.para-re Location usage: Yes
+                            if location
+                                p.mb-1.pl-2.para-re= 'Location: ' + location
+                            else
+                                p.mb-1.pl-2.para-re= 'Location: No location found'
+                        else
+                            p.mb-1.pl-2.para-re Location usage: No
+
+                //- to avoid the warning in the console
+                if !one
+                    #profile-img-one
+                if !two
+                    #profile-img-two
+                if !three
+                    #profile-img-three
+                if !four
+                    #profile-img-four
+                if !five
+                    #profile-img-five
+
+            //- footer
+            footer.page-footer.font-small.mdb-color.bg-light.text-dark
+                .container.text-center.text-md-left
+                    .row.text-center.text-md-left.mt-3.pb-1
+                        .col-md-6.col-lg-5.col-xl-4.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold About us
+                            p
+                                | In this day and age meeting new people and forming relationships is more difficult than ever,
+                                | wether it be from a busy job or a lack of opportunity. Matcha's vision is to offer young and old people the unique opportunity to meet
+                                | that potential special partner in life, all at your fingertips!
+                                | But remember, there's more to love than just emojis and midnight texts.
+                        .col-md-5.col-lg-4.col-xl-3.mx-auto.mt-3
+                            h6.text-uppercase.mb-3.font-weight-bold Get In Touch
+                            p
+                                a.text-info(href="http://instagram.com/jadon.hansen") Instagram
+                            p
+                                a.text-info(href="http://facebook.com/jadon.hansen.56") Facebook
+                            p
+                                a.text-info(href="https://mail.google.com/mail/u/0/#inbox?compose=new") ftmatcha@gmail.com
+                    hr
+                    .row
+                        .col.text-center
+                            p
+                                | &copy; 2019 Matcha. All rights reserved.
+                            a.text-info.github-link(href='https://jadonhansen')
+                                strong  @jadonhansen
+                            a.text-info.github-link(href='https://gstrauss42')
+                                strong  @gstrauss
+
+        script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+        script(src="https://kit.fontawesome.com/17df3da6b8.js", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-1.11.1.js")
+        script(src="./js/load_notifs.js")
+        script(src="./js/profile_friend.js")

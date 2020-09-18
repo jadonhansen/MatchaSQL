@@ -1,0 +1,43 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "Worlds leading dating web app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gstrauss42/matcha.git"
+  },
+  "author": "gstrauss jhansen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gstrauss42/matcha/issues"
+  },
+  "homepage": "https://github.com/gstrauss42/matcha#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "base64-stream": "^1.0.0",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "bufferutil": "^4.0.1",
+    "connect-busboy": "0.0.2",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-crypto": "1.0.5",
+    "express-session": "^1.17.0",
+    "fs-extra": "^8.1.0",
+    "iplocation": "^6.1.0",
+    "mongodb": "^3.3.4",
+    "mongoose": "^5.7.11",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.3.1",
+    "pug": "^2.0.4",
+    "randomstring": "^1.1.5",
+    "save": "^2.4.0",
+    "utf-8-validate": "^5.0.2"
+  }
+}

@@ -1,0 +1,64 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Matcha | Oops!
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
+        link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        link(rel="stylesheet", href="main.css")
+
+    body
+        if error == 1
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Please make sure your login details are correct. Try again!
+        else if error == 2
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Access Denied! Please login first.
+        else if error == 3
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Either we are having server downtime or something went wrong client side :/
+        else if error == 4
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Password Reset
+                p.lead Please check your email for the link we have sent you.
+        else if error == 5
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Please make sure you fill out all inputs and use a unique email address and username.
+        else if error == 6
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Please make sure your account has been verified by using the link sent to your email.
+        else if error == 7
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading You have mail!
+                p.lead Please use the link in the email sent to you to verify your account.
+        else if error == 8
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Please make sure both passwords are the same.
+        else if error == 9
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead This email address is already registered with a Matcha account.     
+        else if error == 10
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead This username is already registered with a Matcha account.
+        else if error == 11
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Please make sure you fill out the email input.
+        else if error == 13
+            .jumbotron.remove-padd
+                h4.display-4.connect-heading Oops! Something went wrong...
+                p.lead Your password must be at least 8 characters long and must not contain spaces.
+
+        script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+        script(src="https://kit.fontawesome.com/17df3da6b8.js", crossorigin="anonymous")
