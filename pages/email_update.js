@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Models = require('../models/models');
 
 router.get('/', function(req, res){
     console.log('EMAIL UPDATE route is in use now');

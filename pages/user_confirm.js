@@ -1,32 +1,39 @@
 const express = require('express');
+const mysql = require('mysql');
+const database = require('../database/db_queries');
 const router = express.Router();
-const Models = require('../models/models');
 
 router.get('/', function(req, res){
 
    const check = req.originalUrl.substring(1);
 
-   Models.user.findOne({verif : check, isverified : 'true'}, { email : 1 }, function(err, doc) {
-   
-      if (err) {
-         console.log('error finding verif key - user confirm: ', err);
-      } else if (doc) {
-         console.log('user confirm route');
-         res.render('reset_password', {url:check});
-      } else {
-         // insert user check for forgot password link
-         console.log('user confirm route - verify link');
+   db = new database();
+   let sql = "SELECT * FROM users WHERE verif = ? AND isverified = ?";
+   let inserts = [check, 1];
+   sql = mysql.format(sql, inserts);
+   let user = db.query(sql);
 
-         Models.user.findOneAndUpdate({ verif : check }, { $set : { isverified: 'true'}}, function(err, doc) {
-            if (doc && doc.email) {
+   user.then(function (res) {
+      if (!ret[0]) {
+         // verify link
+         db = new database();
+         let sql = "UPDATE users set isverified = ? WHERE verif = ?";
+         let inserts = [1, check];
+         sql = mysql.format(sql, inserts);
+         let user = db.query(sql);
+
+         user.then(function (res) {
+            if (res[0].isverified == 1) {
                res.render('login', {url: check});
             } else {
                res.render('oops', { error : '3' });
             }
          });
+      } else {
+         // reset password
+         res.render('reset_password', {url:check});
       }
    });
-})
+});
 
-//export this router to use in our index.js
 module.exports = router;

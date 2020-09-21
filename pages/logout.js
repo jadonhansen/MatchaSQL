@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models/models');
 
 router.get('/', function(req, res){
     models.user.findOneAndUpdate({'email': req.session.name}, {'status': new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}, function(err, doc){

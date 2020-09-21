@@ -3,9 +3,10 @@ const router = express.Router();
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
-const Models = require('../models/models');
 const crypto = require('crypto');
 const axios = require('axios');
+const Database = require('../database/db_queries');
+const mysql = require('mysql');
 
 router.get('/', (req,res) => {
    res.render('login');
@@ -13,51 +14,48 @@ router.get('/', (req,res) => {
 
 router.post('/', bodyParser.urlencoded({extended: true}), function(req, res){
 
-   Models.user.findOne({ username: req.body.username }, { username : 1, password : 1, isverified : 1, email : 1 }, function(err, user) {
-      if (user) {
-         const safe = crypto.pbkdf2Sync(req.body.password, '100' ,1000, 64, `sha512`).toString(`hex`);
+   db = new Database();
 
-            if (user.password == safe && user.isverified == true) {
-               // ip tracking
-               axios.post(`https://ipinfo.io?token=${process.env.TOKEN}`, { json: true }).then(res => {
-                  if (res) {
-                     let ipLocat = `${res.data.city}, ${res.data.region}, ${res.data.country}, ${res.data.postal}`;
-                     console.log('ipLocat: ', ipLocat);
+   let loginAttempt = db.login(req.body.username, req.body.password);
 
-                     Models.user.findOneAndUpdate({ username : req.body.username }, { location : ipLocat }, function(err, _update){
-                        if (err) {
-                           console.log('error updating location: ', err);
-                        } else {
-                           console.log('updated location');
-                        }
-                     });
-                  }
-               }).catch(error => {
-                  console.log('ipinfo error: ', error);
-               });
-               // online status
-               Models.user.findOneAndUpdate({ username : req.body.username }, { status : 'online' }, function(err, _update){
-                  if (err) {
-                     console.log('error updating status');
-                  } else {
-                     console.log('user set to online');
-                  }
-               });
-              //setting session
-               req.session.name = user.email;
-               res.redirect('/profile');
-            }
-            else if (user.isverified !== true)
-               res.render('oops', {error: '6'})
-            else
-               res.render('oops', {error: '1'});
-      }
-      else
-      {
-         res.render('oops', {error: '1'});
-      }
+   loginAttempt.then(function(res){
+      db.query(`UPDATE users SET status = 'online' WHERE username = '${req.session.username}'`);
+      
+      // ip tracking
+      axios.post(`https://ipinfo.io?token=${process.env.TOKEN}`, { json: true }).then(result => {
+         if (result) {
+            let ipLocat = `${result.data.city}, ${result.data.region}, ${result.data.country}, ${result.data.postal}`;
+            console.log('ipLocat: ', ipLocat);
+
+            db = new Database();
+            let sql = "UPDATE users set location = ? WHERE username = ?";
+            let inserts = [ipLocat, req.body.username];
+            sql = mysql.format(sql, inserts);
+            let user = db.query(sql);
+
+            user.then(function (ress) {
+                if (ress[0]) {
+                  console.log('updated location');
+                }
+            },
+               function (err) {
+                  console.log('error updating location: ', err);
+
+           });
+         }
+      }).catch(error => {
+         console.log('ipinfo error: ', error);
+      });
+
+      //setting session
+      req.session.name = req.username;
+      res.redirect('/profile');
+   },
+   function(err){
+      res.json(err);
+      db.close();
    });
+
 });
 
-//export this router to use in our index.js
 module.exports = router;

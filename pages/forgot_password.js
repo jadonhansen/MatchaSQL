@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser');
 var nodeMailer = require('nodemailer');
-var Model = require('../models/models');
 var crypto = require('crypto');
 var randomstring = require('randomstring');
 

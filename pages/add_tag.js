@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const app = express()
 const bodyParser = require('body-parser');
-const Models = require('../models/models');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 router.post('/', bodyParser.urlencoded({extended: true}), function (req, res){

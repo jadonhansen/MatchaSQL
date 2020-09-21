@@ -1,5 +1,4 @@
 const bodyParser = require('body-parser');
-const models = require('../models/models');
 const express = require('express');
 const router = express.Router();
 

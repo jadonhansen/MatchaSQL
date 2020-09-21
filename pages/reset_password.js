@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Models = require('../models/models');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const Database = require('../database/db_queries');
+const mysql = require('mysql');
 
 function passwordCheck(password) {
     if (password.length >= 8) {
@@ -16,18 +17,31 @@ function passwordCheck(password) {
 }
 
 router.post('/', bodyParser.urlencoded({extended: true}), function(req, res){
+
     if (req.body.password == req.body.repeat) {
+
         if (passwordCheck(req.body.password)) {
-            const pass = crypto.pbkdf2Sync(req.body.password, '100' ,1000, 64, `sha512`).toString(`hex`);
-            Models.user.findOneAndUpdate({ verif : req.body.url }, { 'password' : pass }, function(err, doc){
-                if (err) {
-                    console.log('could not reset password: ', err);
-                    res.render('oops', {error: '3'});
-                } else {
-                    console.log('succesful password reset: ', doc.username, doc.email, doc.verif);
-                    res.redirect('login');
-                }
+
+            let hash = encrypt.cryptPassword(req.body.password);
+
+            hash.then(function (hashPass) {
+                db = new Database();
+                let sql = "UPDATE users set password = ? WHERE verif = ?";
+                let inserts = [hashPass, req.body.url];
+                sql = mysql.format(sql, inserts);
+                let user = db.query(sql);
+    
+                user.then(function (result) {
+                    if (result[0]) {
+                        console.log('succesful password reset');
+                        res.redirect('login');
+                    }
+                },
+                    function (err) {
+                        res.render('oops', { error : '3' });
+               });
             });
+
         } else {
             res.render('oops', {error : '13'});
         }
