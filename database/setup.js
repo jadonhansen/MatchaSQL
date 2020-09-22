@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const db = require('./config');
 const Database = require('../database/db_queries');
 
-var DB = new Database();
+// var DB = new Database();
 
 var setupDB = function setupDB() 
 {
@@ -84,7 +84,10 @@ var setupTables = function setupTables() {
 						);`
 
 					conn.query(sql, function (erro, result) {
-						if (erro) throw erro;
+						if (erro)
+							throw erro;
+						else
+							console.log('Created user table');
 					});
 				}
 		});

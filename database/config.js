@@ -1,4 +1,4 @@
-const servername = "192.168.64.2";
+const servername = "192.168.64.2"; // or localhost
 const dbusername = "root";
 const dbpassword = "";
 const dbname = "matcha";

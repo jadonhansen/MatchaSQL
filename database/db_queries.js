@@ -60,7 +60,7 @@ class Database {
 		return new Promise((resolve, reject) => {
 			var a = this;
 			let userExists = this.validate_user(username);
-
+			
 			userExists.then(function (ret) {
 				reject("User already exists");
 			},
@@ -150,6 +150,7 @@ class Database {
 	// Checking if user exists
 	validate_user(username) {
 		return new Promise((resolve, reject) => {
+
 			let sql = "SELECT * FROM users WHERE username = ?";
 			let inserts = [username];
 			sql = mysql.format(sql, inserts);
