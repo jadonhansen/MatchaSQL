@@ -1,6 +1,6 @@
 const sql = require('./database/setup');
 const app = require('./app');
-const PORT = 777;
+const PORT = 3306;
 
 sql.setupDB();
 

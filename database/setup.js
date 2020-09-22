@@ -1,26 +1,33 @@
+const mysql = require('mysql');
 const db = require('./config');
-const database = require('../database/db_queries');
-var mysql = require('mysql');
+const Database = require('../database/db_queries');
 
-var DB = new database();
+var DB = new Database();
 
 var setupDB = function setupDB() 
 {
-	var conn = mysql.createConnection( {
+	var connection = mysql.createConnection({
 		host: `${db.servername}`,
 		user: `${db.dbusername}`,
 		password: `${db.dbpassword}`
 	});
 
-	conn.connect(function(error) {
+	connection.connect(function(error) {
 
-		if (error) throw(error);
+		console.log("in here up bruu"); ////////////
 
-		conn.query("CREATE DATABASE IF NOT EXISTS matcha", function (err, result) {
-			if (err)
+		if (error) {
+			// throw(error);
+			console.log('Error: ', error)
+		}
+
+		connection.query("CREATE DATABASE IF NOT EXISTS matcha", function (err, result) {
+			if (err) {
 				throw(err);
-			else
+			}
+			else {
 				setupTables();	
+			}
 		});
 	});
 }

@@ -6,7 +6,8 @@ quite refreshing to use with your match!
 - A .env file with various constants will be needed to run this application properly.
 - In the root project directory in your terminal run the command 'npm install'.
 - In the same directory run the command 'npm start'.
-- Then navigate to 'localhost:777' in your browser.
+- Make sure you have XAMPP running for a connection to the SQL database on port 3306.
+- Then navigate to 'localhost:3306' in your browser.
 - Happy Matching!
 
 # Error Codes (for developer use):

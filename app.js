@@ -1,6 +1,6 @@
 // App Variables
 const express   = require('express');
-const app       = require('express')();
+const app       = express();
 const path      = require('path');
 const session   = require('express-session');
 
@@ -8,6 +8,11 @@ const session   = require('express-session');
 require('dotenv').config()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.use(express.static('public'));
+app.use('/js', express.static('views/js'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Session
 app.use(session({
   secret: process.env.secret,
   resave: true,
@@ -15,10 +20,7 @@ app.use(session({
   cookie: {
 		expires: 600000000
   }
-  }));
-app.use(express.static('public'));
-app.use('/js', express.static('views/js'));
-app.use(express.static(path.join(__dirname, 'public')));
+}));
 
 // Page Variables
 const index               = require('./pages/index.js');

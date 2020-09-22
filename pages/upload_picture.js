@@ -2,12 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-ObjectId = require('mongodb').ObjectId
-fs = require('fs-extra')
+let fs = require('fs-extra')
 
-multer = require('multer')
-util = require('util')
-upload = multer({limits: {fileSize: 2000000 }, dest:process.env.path})
+let multer = require('multer')
+let upload = multer({limits: {fileSize: 2000000 }, dest:process.env.path})
 
 router.post('/', upload.single('picture'), bodyParser.urlencoded({extended: true}), function (req, res) {
     if (req.file == null) {

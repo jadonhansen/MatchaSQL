@@ -1,6 +1,6 @@
-const servername = "localhost";
+const servername = "192.168.64.2";
 const dbusername = "root";
-const dbpassword = "123456";
+const dbpassword = "";
 const dbname = "matcha";
 
 module.exports.servername = servername;
