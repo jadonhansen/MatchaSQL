@@ -1,9 +1,9 @@
 const sql = require('./database/setup');
 const app = require('./app');
-const PORT = 3306;
+require('dotenv').config();
 
 sql.setupDB();
 
-app.listen(PORT, () => {
-	console.log(`Server is listening on port: ${PORT}`);
+app.listen(process.env.port, () => {
+	console.log(`Server is listening on port: ${process.env.port}`);
 });

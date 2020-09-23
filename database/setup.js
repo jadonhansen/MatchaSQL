@@ -78,10 +78,8 @@ var setupTables = function setupTables() {
 						);`
 
 					conn.query(sql, function (erro, result) {
-						if (erro)
-							throw erro;
-						else
-							console.log('Created user table');
+						if (erro) throw erro;
+						console.log('Created user table');
 					});
 				}
 		});
@@ -111,16 +109,17 @@ var setupTables = function setupTables() {
 			}
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS messages (
-					to LONGTEXT NOT NULL,
-					from LONGTEXT NOT NULL,
+					toUser LONGTEXT NOT NULL,
+					fromUser LONGTEXT NOT NULL,
 					message LONGTEXT NOT NULL,
-					read BOOLEAN DEFAULT 0,
-					time LONGTEXT NOT NULL,
-					sort_time bigint(13) NOT NULL
+					readMsg BOOLEAN DEFAULT 0,
+					timeSent LONGTEXT NOT NULL,
+					sortTime bigint(13) NOT NULL
 					);`
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created messages table');
 				});
 			}
 		});
@@ -156,6 +155,7 @@ var setupTables = function setupTables() {
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created likes table');
 				});
 			}
 		});
@@ -186,11 +186,12 @@ var setupTables = function setupTables() {
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS dislikes (
 					disliked LONGTEXT,
-					disliker LONGTEXT,
+					disliker LONGTEXT
 					);`
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created dislikes table');
 				});
 			}
 		});
@@ -221,11 +222,12 @@ var setupTables = function setupTables() {
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS views (
 					viewed LONGTEXT,
-					viewer LONGTEXT,
+					viewer LONGTEXT
 					);`
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created views table');
 				});
 			}
 		});
@@ -261,6 +263,7 @@ var setupTables = function setupTables() {
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created tags table');
 				});
 			}
 		});
@@ -296,6 +299,7 @@ var setupTables = function setupTables() {
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created blocks table');
 				});
 			}
 		});
@@ -331,6 +335,7 @@ var setupTables = function setupTables() {
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created reports table');
 				});
 			}
 		});
@@ -360,15 +365,17 @@ var setupTables = function setupTables() {
 			}
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS notifications (
-					email LONGTEXT NOT NULL,
+					msgID int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+					username LONGTEXT NOT NULL,
 					name varchar(30) NOT NULL,
 					content LONGTEXT NOT NULL,
-					time LONGTEXT NOT NULL,
-					read BOOLEAN default 0
+					timeNotif LONGTEXT NOT NULL,
+					readNotif BOOLEAN default 0
 					);`
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					console.log('Created notifications table');
 				});
 			}
 		});

@@ -5,7 +5,7 @@ const path      = require('path');
 const session   = require('express-session');
 
 // App Configuration
-require('dotenv').config()
+require('dotenv').config();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(express.static('public'));

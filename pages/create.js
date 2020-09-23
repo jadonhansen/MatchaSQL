@@ -1,6 +1,6 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
-const app = express()
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 const Database = require('../database/db_queries');
@@ -31,11 +31,12 @@ router.post('/create', bodyParser.urlencoded({extended: true}), function(req, re
          req.body.email, req.body.password, req.body.age, req.body.gender, req.body.preferences);
 
 		registerAttempt.then(function(ret){
+         console.log('Created Account');
          res.render('oops', {error: '7'})
-         console.log('created account');
 		},
-		function (err) {
-         console.error('User Save Error: ', error);
+		function (error) {
+         console.error(error);
+         res.render('oops', {error: '5'});
       });
    } else {
       res.render('oops', {error : '13'});

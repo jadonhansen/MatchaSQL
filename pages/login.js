@@ -3,24 +3,22 @@ const router = express.Router();
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
-const crypto = require('crypto');
 const axios = require('axios');
 const Database = require('../database/db_queries');
-const mysql = require('mysql');
 
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
    res.render('login');
 });
 
-router.post('/', bodyParser.urlencoded({extended: true}), function(req, res){
+router.post('/', bodyParser.urlencoded({extended: true}), function(req, ress){
 
    db = new Database();
 
    let loginAttempt = db.login(req.body.username, req.body.password);
 
-   loginAttempt.then(function(res){
+   loginAttempt.then(function(attemptRes) {
       db.query(`UPDATE users SET status = 'online' WHERE username = '${req.session.username}'`);
-      
+
       // ip tracking
       axios.post(`https://ipinfo.io?token=${process.env.TOKEN}`, { json: true }).then(result => {
          if (result) {
@@ -28,31 +26,22 @@ router.post('/', bodyParser.urlencoded({extended: true}), function(req, res){
             console.log('ipLocat: ', ipLocat);
 
             db = new Database();
-            let sql = "UPDATE users set location = ? WHERE username = ?";
-            let inserts = [ipLocat, req.body.username];
-            sql = mysql.format(sql, inserts);
-            let user = db.query(sql);
-
-            user.then(function (ress) {
-                if (ress[0]) {
-                  console.log('updated location');
-                }
-            },
-               function (err) {
-                  console.log('error updating location: ', err);
-
-           });
+            db.query(`UPDATE users set location = '${ipLocat}' WHERE username = '${req.body.username}'`);
          }
       }).catch(error => {
-         console.log('ipinfo error: ', error);
+         console.log('Ipinfo Axios Error: ', error);
       });
 
       //setting session
-      req.session.name = req.username;
-      res.redirect('/profile');
+      req.session.name = req.body.username;
+      ress.redirect('/profile');
    },
    function(err){
-      res.json(err);
+      if (err == 'Incorrect password' || err == 'Username does not exist.') {
+         ress.render('oops', {err: 1});
+      } else if (err == 'Please confirm your email with the link sent to continue.') {
+         ress.render('oops', {err: 6});
+      }
       db.close();
    });
 
