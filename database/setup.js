@@ -9,25 +9,19 @@ var setupDB = function setupDB()
 	var connection = mysql.createConnection({
 		host: `${db.servername}`,
 		user: `${db.dbusername}`,
-		password: `${db.dbpassword}`
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`
 	});
 
 	connection.connect(function(error) {
 
-		console.log("in here up bruu"); ////////////
-
-		if (error) {
-			// throw(error);
-			console.log('Error: ', error)
-		}
+		if (error) throw(error);
 
 		connection.query("CREATE DATABASE IF NOT EXISTS matcha", function (err, result) {
-			if (err) {
-				throw(err);
-			}
-			else {
-				setupTables();	
-			}
+			if (err) throw(err);
+			console.log('Initiliazed databse...');
+			connection.end();
+			setupTables();
 		});
 	});
 }
@@ -38,9 +32,9 @@ var setupTables = function setupTables() {
 		host: `${db.servername}`,
 		user: `${db.dbusername}`,
 		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
 		database: `${db.dbname}`
 	});
-
 
 	// CREATE USER TABLE
 
@@ -95,6 +89,14 @@ var setupTables = function setupTables() {
 
 	// CREATE MESSAGES TABLE
 
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
 	conn.connect(function(err) {
 		if (err) throw err;
 
@@ -126,6 +128,14 @@ var setupTables = function setupTables() {
 
 	// CREATE LIKES TABLE
 
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
 	conn.connect(function(err) {
 		if (err) throw err;
 
@@ -152,6 +162,14 @@ var setupTables = function setupTables() {
 	});
 
 	// CREATE DISLIKES TABLE
+
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
 
 	conn.connect(function(err) {
 		if (err) throw err;
@@ -180,6 +198,14 @@ var setupTables = function setupTables() {
 
 	// CREATE VIEWS TABLE
 
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
 	conn.connect(function(err) {
 		if (err) throw err;
 
@@ -206,6 +232,14 @@ var setupTables = function setupTables() {
 	});
 
 	// CREATE TAGS TABLE
+
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
 
 	conn.connect(function(err) {
 		if (err) throw err;
@@ -234,6 +268,14 @@ var setupTables = function setupTables() {
 
 	// CREATE BLOCKS TABLE
 
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
 	conn.connect(function(err) {
 		if (err) throw err;
 
@@ -260,6 +302,14 @@ var setupTables = function setupTables() {
 	});
 
 	// CREATE REPORTS TABLE
+
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
 
 	conn.connect(function(err) {
 		if (err) throw err;
@@ -288,6 +338,14 @@ var setupTables = function setupTables() {
 
 	// CREATE NOTIFICATIONS TABLE
 
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+	
 	conn.connect(function(err) {
 		if (err) throw err;
 

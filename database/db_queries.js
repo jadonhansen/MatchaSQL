@@ -60,7 +60,7 @@ class Database {
 		return new Promise((resolve, reject) => {
 			var a = this;
 			let userExists = this.validate_user(username);
-			
+
 			userExists.then(function (ret) {
 				reject("User already exists");
 			},
