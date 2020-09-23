@@ -9,6 +9,8 @@ class Database {
 		this.connection = mysql.createConnection({
 			host: `${db.servername}`,
 			user: `${db.dbusername}`,
+			password: `${db.dbpassword}`,
+			port: `${db.dbport}`,
 			database: `${db.dbname}`
 		});
 	}
