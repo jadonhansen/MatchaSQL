@@ -36,11 +36,11 @@ router.post('/', bodyParser.urlencoded({extended: true}), function(req, ress){
       req.session.name = req.body.username;
       ress.redirect('/profile');
    },
-   function(err){
+   function(err) {
       if (err == 'Incorrect password' || err == 'Username does not exist.') {
-         ress.render('oops', {err: 1});
+         ress.render('oops', {err: '1'});
       } else if (err == 'Please confirm your email with the link sent to continue.') {
-         ress.render('oops', {err: 6});
+         ress.render('oops', {err: '6'});
       }
       db.close();
    });

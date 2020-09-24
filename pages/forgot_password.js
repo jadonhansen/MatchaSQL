@@ -1,55 +1,52 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const bodyParser = require('body-parser');
-var nodeMailer = require('nodemailer');
-var crypto = require('crypto');
-var randomstring = require('randomstring');
+const crypto = require('crypto');
+const randomstring = require('randomstring');
+const email_handler = require('../database/emailing');
+const Database = require('../database/db_queries');
 
 router.get('/', (req, res) => {
    res.render('forgot_password');
-})
+});
 
 router.post('/', bodyParser.urlencoded({extended: true}), function (req, res) {
    if (!req.body.email) {
       res.render('oops', { error : '11' });
    } else {
-      Model.user.findOne({ email: req.body.email }, function(err, user) {
-         if (user) {
-            // emailer
-            var safe = crypto.pbkdf2Sync(randomstring.generate(), '100' ,1000, 64, `sha512`).toString(`hex`);
-            let transporter = nodeMailer.createTransport({
-               host: 'smtp.gmail.com',
-               port: 465,
-               secure: true,
-               auth: {
-                  user: 'ftmatcha@gmail.com',
-                  pass: process.env.password
-               }
+
+      let db = new Database();
+      let user = db.get_valid_user_by_email(req.body.email);
+
+      user.then(function(result) {
+         if (result[0]) {
+
+            let safe = crypto.pbkdf2Sync(randomstring.generate(), '100', 1000, 64, `sha512`).toString(`hex`);
+            let emailRes = email_handler.password_reset_link(result[0].email, safe);
+
+            emailRes.then(function(resultt) {
+               let updated = db.updateVerif(safe, result[0].email);
+
+               updated.then(function (ress) {
+                  res.render('oops', {error : '4'});
+                  db.close();
+               }, function (error) {
+                  res.render('oops', {error : '3'});
+                  db.close();
+               });
+            }, function(error) {
+               res.render('oops', {error : '3'});
+               db.close();
             });
-            var mailOptions = {
-               to: req.body.email,
-               subject: 'Dont be like that',
-               text: 'Your reset password verification link, localhost:' + process.env.port + '/' + safe
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-               if (error) {
-                  console.log('Error sending password reset email: ', error);
-               } else {
-                  console.log('Password reset email sent');
-               }
-            });
-            // updated verification string to ensure user authenticity via email
-            Model.user.findOneAndUpdate({email : req.body.email}, {verif : safe}, function(err, doc) {
-               if (err) {
-                  console.log('Unable to update verif in db: ', err);
-               } else {
-                  console.log('updated verif in db: ' + doc.verif);
-               }
-            });
-            res.render('oops', {error : '4'});
          } else {
-            res.render('oops', {error : '3'});
+            db.close();
+            console.log('Error Finding User');
+            render('oops', {error : '14'});
          }
+      }, function (error) {
+         db.close();
+         console.log('Error Finding User');
+         render('oops', {error : '14'});
       });
    }
 });

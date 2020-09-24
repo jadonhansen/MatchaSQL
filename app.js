@@ -34,14 +34,13 @@ const logout              = require('./pages/logout.js');
 const profile             = require('./pages/profile.js');
 const update_profile      = require('./pages/update_profile.js');
 const email_update        = require('./pages/email_update.js');
-const add_tag             = require('./pages/add_tag.js');
 const upload_picture      = require('./pages/upload_picture.js');
 const notifications       = require('./pages/notifications.js');
 const search              = require('./pages/search.js');
 const contacts            = require('./pages/contacts.js');
 const matched_profile     = require('./pages/matched_profile.js');
 const chat                = require('./pages/chat.js');
-const remove_tag          = require('./pages/remove_tag.js');
+const tags                = require('./pages/tags.js');
 const oops                = require('./pages/oops.js');
 const live_notifications  = require('./pages/live_notifications.js')
 
@@ -60,7 +59,7 @@ app.use('/matched_profile', matched_profile);
 app.use('/notifications', notifications);
 app.use('/profile', profile);
 app.use('/search', search);
-app.use('/add_tag', add_tag);
+app.use('/tags', tags);
 app.use('/logout', logout);
 app.use('/update_profile', update_profile);
 app.use('/reset_password', reset_password);
@@ -68,7 +67,6 @@ app.use('/upload_picture', upload_picture);
 app.use('/check/:var_words', email_update); // this is not in use
 app.use('/live_notifications', live_notifications);
 app.use('/:var_words', user_confirm);
-app.use('/remove_tag', remove_tag);
 app.use('/oops', oops);
 
 module.exports = app;

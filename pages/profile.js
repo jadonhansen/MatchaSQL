@@ -2,16 +2,19 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const Database = require('../database/db_queries');
+const mysql = require('mysql');
 
 router.post('/update_location', bodyParser.urlencoded({extended: true}), function(req, res){
 
    if (!req.session.name) return(res.render('oops', {error: '2'}));
 
    if (req.body.location_text) {
+      let db = new Database();
+
       let sql = "UPDATE users SET location = ? WHERE username = ?";
-      let inserts = [req.body.location_text, username];
+      let inserts = [req.body.location_text, req.session.name];
       sql = mysql.format(sql, inserts);
-      this.query(sql);
+      db.query(sql);
       console.log('Updated Location');
    }
    res.redirect('/profile');
@@ -30,24 +33,25 @@ router.get('/', function(req, res){
          }
 
          let tags = db.getUserTags(req.session.name);
-         tags.then(function(t){
-            console.log(t);
+         tags.then(function(tagArr){
 
             let views = db.getUserViews(req.session.name);
-            views.then(function(v){
-               console.log(v);
+            views.then(function(viewsArr){
 
                let viewed = db.getUserViewed(req.session.name);
-               viewed.then(function(vd) {
-                  console.log(vd);
-               
+               viewed.then(function(viewedArr) {
+
                   let likes = db.getUserLikes(req.session.name);
-                  likes.then(function(ls) {
-                     console.log(ls);
+                  likes.then(function(likesArr) {
 
                      let liked = db.getUserLiked(req.session.name);
-                     liked.then(function(ld) {
-                        console.log(ld);
+                     liked.then(function(likedArr) {
+
+                        console.log(likedArr);
+                        console.log(likesArr);
+                        console.log(viewedArr);
+                        console.log(viewsArr);
+                        console.log(tagArr);
 
                         res.render('profile', {name: usr[0].name,
                            surname: usr[0].surname,
@@ -58,15 +62,15 @@ router.get('/', function(req, res){
                            three: usr[0].image_two,
                            four: usr[0].image_three,
                            five: usr[0].image_four,
-                           views: views,
-                           viewed: viewed,
-                           likes: likes,
-                           liked: liked,
+                           views: viewsArr,
+                           viewed: viewedArr,
+                           likes: likesArr,
+                           liked: likedArr,
                            rating: usr[0].rating,
                            gender: usr[0].gender,
                            prefferances: usr[0].prefferances,
                            age: usr[0].age,
-                           tags: tags,
+                           tags: tagArr,
                            location_status: usr[0].location_status,
                            location: usr[0].location,
                            bio: usr[0].bio});
@@ -75,10 +79,9 @@ router.get('/', function(req, res){
                });
             });
          });
-      },
-         function(err) {
-            return(res.render('oops', {error: '1'}));
-         });
+      }, function(err) {
+         return(res.render('oops', {error: '1'}));
+      });
    }
 });
 

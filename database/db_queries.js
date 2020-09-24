@@ -161,6 +161,24 @@ class Database {
 		});
 	}
 
+	// Getting verified user by email
+	get_valid_user_by_email(email) {
+		return new Promise((resolve, reject) => {
+			let sql = "SELECT * FROM users WHERE email = ? AND isverified = ?";
+			let inserts = [email, 1];
+			sql = mysql.format(sql, inserts);
+			let userExists = this.query(sql);
+
+			userExists.then(function (ret) {
+				if (!ret[0])
+					return reject("User does not exist.");
+				resolve(ret);
+			}, function (err) {
+				reject(err);
+			});
+		});
+	}
+
 	// Checking if user exists
 	validate_user(username) {
 		return new Promise((resolve, reject) => {
@@ -281,6 +299,44 @@ class Database {
 				resolve(arr);
 			}, function (err) {
 				reject("Failed to validate query.");
+			});
+		});
+	}
+
+	// updates verif string when a new password reset link is sent
+	updateVerif(safe, email) {
+		return new Promise((resolve, reject) => {
+
+			let sql = "UPDATE users SET verif = ? WHERE email = ?";
+			let inserts = [safe, email];
+			sql = mysql.format(sql, inserts);
+			let updatedUsr = this.query(sql);
+		 
+			updatedUsr.then(function (ret) {
+			   console.log('Updated Verif Succesfully');
+			   resolve(ret);
+			}, function (err) {
+			   console.log('Unable To Update Verif');
+			   reject("Failed to validate query.");
+			});
+		});
+	}
+
+	// Updating users email to new email from link sent
+	updateNewEmailByVerif(check, newEmail) {
+		return new Promise((resolve, reject) => {
+
+			let sql = "UPDATE users SET email = ? WHERE verif = ?";
+			let inserts = [newEmail, check];
+			sql = mysql.format(sql, inserts);
+			let updatedUsr = this.query(sql);
+		 
+			updatedUsr.then(function (ret) {
+			   console.log('Updated New Email Succesfully');
+			   resolve(ret);
+			}, function (err) {
+			   console.log('Unable To Update To New Email');
+			   reject("Failed to validate query.");
 			});
 		});
 	}

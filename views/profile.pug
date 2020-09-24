@@ -364,7 +364,7 @@ html(lang="en")
                     //- add interest tags
                     .container-fluid.mb-5.mt-2
                         h5 Add an interest tag
-                        form(action="add_tag", method="post")
+                        form(action="tags/add_tag", method="post")
                             .form-row.align-items-center
                                 .col-auto
                                     label.sr-only(for="inlineFormInputGroup") Tag
@@ -377,7 +377,7 @@ html(lang="en")
                         if tags.length !== 0
                             p.d-inline= "Current tags: "
                             for gold in tags
-                                form(action="remove_tag", method="post")
+                                form(action="tags/remove_tag", method="post")
                                     input(type="hidden", name="tag", value= gold)
                                     p.d-inline.mr-0= '#' + gold + " "
                                         button.close.d-inline(type="submit", name="delete_tag", aria-label="Close")

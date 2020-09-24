@@ -23,3 +23,4 @@ quite refreshing to use with your match!
 - 10: This username is already registered with a Matcha account. (updating profile)
 - 11: Please make sure you fill out the email input.
 - 13: Your password must be at least 8 characters long and must not contain spaces.
+- 14: Either your account has not been verified or we cannot find your email address related to an existing account.

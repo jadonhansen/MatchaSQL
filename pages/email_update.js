@@ -1,16 +1,37 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const Database = require('../database/db_queries');
+const router = express.Router();
+const mysql = require('mysql');
 
 router.get('/', function(req, res){
-    console.log('EMAIL UPDATE route is in use now');
-    // pulling info from url
-    const check = req.originalUrl.substring(7);
-    Models.user.findOne({verif : check}, function(err, _update) {
-        Models.user.findOneAndUpdate({verif : check}, {$set : { email: _update.verif_email}}, function(err, _updater) {
-            res.redirect('login');
-        });
+    let check = req.originalUrl.substring(7);
+
+    let db = new Database();
+
+    let sql = "SELECT * FROM users where verif = ?";
+    let inserts = [check];
+    sql = mysql.format(sql, inserts);
+    let user = db.query(sql);
+
+    user.then(function (ret) {
+        if (ret[0]) {
+            let updatedUsr = db.updateNewEmailByVerif(check, ret[0].verif_email);
+
+            updatedUsr.then(function (success) {
+                console.log('Updated To New Email');
+                res.redirect('/login');
+                db.close();
+            }, function (err) {
+                console.log('Unable To Update To New Email');
+                res.render('oops', {error: '3'})
+                db.close();
+            });
+        }
+    }, function (err) {
+        console.log('Unable To Update To New Email - Verif Not Found');
+        res.render('oops', {error: '3'})
+        db.close();
     });
 });
 
-//export this router to use in our index.js
 module.exports = router;
