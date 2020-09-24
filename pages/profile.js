@@ -66,7 +66,7 @@ router.get('/', function(req, res){
                            viewed: viewedArr,
                            likes: likesArr,
                            liked: likedArr,
-                           rating: usr[0].rating,
+                           rating: usr[0].fame,
                            gender: usr[0].gender,
                            prefferances: usr[0].prefferances,
                            age: usr[0].age,

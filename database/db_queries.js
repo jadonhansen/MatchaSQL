@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const email_handler = require('../database/emailing');
 const encrypt = require('./crypting');
 const crypto = require('crypto');
+const Updates = require('./db_updates');
 
 class Database {
 
@@ -43,6 +44,16 @@ class Database {
 						let password_check = encrypt.comparePassword(password, pass.password);
 
 						password_check.then(function (ress) {
+							let updateDB = new Updates();
+							let updated = updateDB.updateStatus(ret[0].username, 'online');
+
+							updated.then(function (success) {
+								console.log('Set User To Online');
+								updateDB.close();
+							}, function (err) {
+								console.log('Unable To Set User Online');
+								updateDB.close();
+							});
 							resolve(`Logging in user`);
 						}, function (err) {
 							reject(`Incorrect password`);

@@ -1,8 +1,5 @@
 const db = require('./config');
 const mysql = require('mysql');
-const email_handler = require('../database/emailing');
-const encrypt = require('./crypting');
-const crypto = require('crypto');
 
 class Updates {
 
@@ -273,6 +270,63 @@ class Updates {
 				resolve(ret);
 			}, function (error) {
 				console.log('Unable To Delete Tag');
+				reject("Failed to validate query.");
+			});
+		});
+	}
+
+	// Uploading profile images
+	uploadImages(username, image, chosen) {
+		return new Promise((resolve, reject) => {
+
+			let sql;
+			switch (chosen) {
+				case 0:
+					sql = "UPDATE users SET main_image = ? WHERE username = ?";
+					break;
+				case 1:
+					sql = "UPDATE users SET image_one = ? WHERE username = ?";
+					break;
+				case 2:
+					sql = "UPDATE users SET image_two = ? WHERE username = ?";
+					break;
+				case 3:
+					sql = "UPDATE users SET image_three = ? WHERE username = ?";
+					break;
+				case 4:
+					sql = "UPDATE users SET image_four = ? WHERE username = ?";
+					break;
+				default:
+					return reject('Unacceptable Image Number');
+			}
+			let inserts = [image, username];
+			sql = mysql.format(sql, inserts);
+			let res = this.query(sql);
+
+			res.then(function (ret) {
+				console.log('Updated Image Succesfully');
+				resolve(ret);
+			}, function (error) {
+				console.log('Unable To Update Image');
+				reject("Failed to validate query.");
+			});
+		});
+	}
+
+	// Updates status when a user logs off or logs on
+	updateStatus(username, status) {
+		return new Promise((resolve, reject) => {
+
+			let sql = "UPDATE users SET status = ? WHERE username = ?";
+			let inserts = [status, username];
+			sql = mysql.format(sql, inserts);
+			let updatedUsr = this.query(sql);
+
+			updatedUsr.then(function (ret) {
+				console.log('Updated Status Succesfully');
+				resolve(ret);
+			}, function (error) {
+				console.log('Unable To Update Status');
 				reject("Failed to validate query.");
 			});
 		});
