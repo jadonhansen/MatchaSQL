@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const Searches = require('../database/db_searches');
+const Matches = require('../database/db_matches');
 
 router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) {
 
@@ -340,10 +341,11 @@ router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) 
       }
       // else if req.body.unique == '1'
       else {
-         let db = new Searches();
+         let db = new Matches();
          let userRender = db.renderMatchedUser(req.session.name, req.body._id);
 
          userRender.then(function (ret) {
+            db.close();
             res.render('matched_profile', {  name: ret.name,
                                              surname: ret.surname,
                                              email: ret.email,
@@ -367,6 +369,7 @@ router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) 
                                              bio: ret.bio});
          }, function (err) {
             console.log(err);
+            db.close();
             res.render('oops', {error : '3'});
          });
       }
