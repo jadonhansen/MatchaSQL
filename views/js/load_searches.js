@@ -35,16 +35,16 @@ function displayResults(arr) {
 		arr.forEach(element => {
 			if (element.main_image) {
 				if (element.bio) {
-					resultsArr += `<form action="matched_profile" method="post" id=${element._id}>
+					resultsArr += `<form action="matched_profile" method="post" id=${element.userID}>
 									<input type="hidden" name="unique" value="1" />
-									<input type="hidden" name="_id" value=${element._id} />
+									<input type="hidden" name="_id" value=${element.userID} />
 									<div class="alert alert-primary alert-dismissible fade show ml-4 mr-4" role="alert">
 										<div class="media">
-											<a href="javascript: submitform('${element._id}')">
+											<a href="javascript: submitform('${element.userID}')">
 												<img class="rounded mr-2 search-profile" src="data:image/*;base64,${element.main_image}" alt="profile_image"/>
 											</a>
 											<div class="media-body">
-												<a href="javascript: submitform('${element._id}')">
+												<a href="javascript: submitform('${element.userID}')">
 													<strong class="custom-username">${element.username}</strong>
 												</a>
 												<p class="search-profile-descrip mb-0">${element.bio}</p>
@@ -53,16 +53,16 @@ function displayResults(arr) {
 									</div>
 								</form>`;
 				} else {
-					resultsArr += `<form action="matched_profile" method="post" id=${element._id}>
+					resultsArr += `<form action="matched_profile" method="post" id=${element.userID}>
 									<input type="hidden" name="unique" value="1" />
-									<input type="hidden" name="_id" value=${element._id} />
+									<input type="hidden" name="_id" value=${element.userID} />
 									<div class="alert alert-primary alert-dismissible fade show ml-4 mr-4" role="alert">
 										<div class="media">
-											<a href="javascript: submitform('${element._id}')">
+											<a href="javascript: submitform('${element.userID}')">
 												<img class="rounded mr-2 search-profile" src="data:image/*;base64,${element.main_image}" alt="profile_image"/>
 											</a>
 											<div class="media-body">
-												<a href="javascript: submitform('${element._id}')">
+												<a href="javascript: submitform('${element.userID}')">
 													<strong class="custom-username">${element.username}</strong>
 												</a>
 											</div>
@@ -72,16 +72,16 @@ function displayResults(arr) {
 				}
 			} else {
 				if (element.bio) {
-					resultsArr += `<form action="matched_profile" method="post" id=${element._id}>
+					resultsArr += `<form action="matched_profile" method="post" id=${element.userID}>
 									<input type="hidden" name="unique" value="1" />
-									<input type="hidden" name="_id" value=${element._id} />
+									<input type="hidden" name="_id" value=${element.userID} />
 									<div class="alert alert-primary alert-dismissible fade show ml-4 mr-4" role="alert">
 										<div class="media">
-											<a href="javascript: submitform('${element._id}')">
+											<a href="javascript: submitform('${element.userID}')">
 												<img class="rounded mr-2 search-profile" src="user.jpg" alt="profile_image"/>
 											</a>
 											<div class="media-body">
-												<a href="javascript: submitform('${element._id}')">
+												<a href="javascript: submitform('${element.userID}')">
 													<strong class="custom-username">${element.username}</strong>
 												</a>
 												<p class="search-profile-descrip mb-0">${element.bio}</p>
@@ -90,16 +90,16 @@ function displayResults(arr) {
 									</div>
 								</form>`;
 				} else {
-					resultsArr += `<form action="matched_profile" method="post" id=${element._id}>
+					resultsArr += `<form action="matched_profile" method="post" id=${element.userID}>
 									<input type="hidden" name="unique" value="1" />
-									<input type="hidden" name="_id" value=${element._id} />
+									<input type="hidden" name="_id" value=${element.userID} />
 									<div class="alert alert-primary alert-dismissible fade show ml-4 mr-4" role="alert">
 										<div class="media">
-											<a href="javascript: submitform('${element._id}')">
+											<a href="javascript: submitform('${element.userID}')">
 												<img class="rounded mr-2 search-profile" src="user.jpg" alt="profile_image"/>
 											</a>
 											<div class="media-body">
-												<a href="javascript: submitform('${element._id}')">
+												<a href="javascript: submitform('${element.userID}')">
 													<strong class="custom-username">${element.username}</strong>
 												</a>
 											</div>
@@ -178,7 +178,7 @@ function fetchSuggestions() {
 				if (ret.matches.length > 1)
 					loadStr = `<p class=\"ml-4 mb-3\">Showing ${ret.matches.length} suggestions</p>`;
 				else
-					loadStr = `<p class=\"ml-4 mb-3\">Showing ${ret.matches.length} suggestions</p>`;
+					loadStr = `<p class=\"ml-4 mb-3\">Showing ${ret.matches.length} suggestion</p>`;
 				$('#filterStr').html(loadStr);
 			} else {
 				$('#filterStr').html('<h6 class=\"ml-4 mb-3\">No suggestions at this moment! Try an advanced search.</h6>');

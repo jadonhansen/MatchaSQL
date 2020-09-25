@@ -380,6 +380,42 @@ var setupTables = function setupTables() {
 			}
 		});
 	});
+
+	// CREATE CONTACTS TABLE
+
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
+	conn.connect(function(err) {
+		if (err) throw err;
+
+		conn.query(`SELECT * FROM information_schema.tables
+					WHERE table_schema = 'matcha'
+					AND table_name = 'contacts'`,
+		function (err, result) {
+			if (err) throw err;
+
+			if (result.length > 0) {
+				console.log('Notifications Table Already Exists');
+			}
+			else {
+				var sql = `CREATE TABLE IF NOT EXISTS contacts (
+					username LONGTEXT NOT NULL,
+					contact LONGTEXT NOT NULL
+					);`
+
+				conn.query(sql, function (err, result) {
+					if (err) throw err;
+					console.log('Created contacts table');
+				});
+			}
+		});
+	});
 }
 
 module.exports.setupDB = setupDB;

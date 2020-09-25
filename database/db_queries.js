@@ -4,6 +4,8 @@ const email_handler = require('../database/emailing');
 const encrypt = require('./crypting');
 const crypto = require('crypto');
 const Updates = require('./db_updates');
+const { promisify } = require('util');
+const sleep = promisify(setTimeout);
 
 class Database {
 
@@ -349,6 +351,71 @@ class Database {
 			   console.log('Unable To Update To New Email');
 			   reject("Failed to validate query.");
 			});
+		});
+	}
+
+	// Getting contacts that belong to a user
+	getContacts(username) {
+		return new Promise((resolve, reject) => {
+
+			let sql = "SELECT contact FROM contacts WHERE username = ?";
+			let inserts = [username];
+			sql = mysql.format(sql, inserts);
+			let contacts = this.query(sql);
+
+			contacts.then(function (ret) {
+			   console.log('Obtained Contacts');
+			   resolve(ret);
+			}, function (err) {
+			   console.log('Unable To Update To Obtain Contacts');
+			   reject("Failed to validate query.");
+			});
+		});
+	}
+
+	// Getting specific users details as per contact list
+	getContactUsers(userArr) {
+		return new Promise((resolve, reject) => {
+			let resArr = new Array;
+
+			userArr.forEach(element => {
+
+				let sql = "SELECT username, bio, main_image, email, userID FROM users WHERE username = ?";
+				let inserts = [element.contact];
+				sql = mysql.format(sql, inserts);
+				let usr = this.query(sql);
+
+				usr.then(function (ret) {
+					resArr.push(ret[0]);
+				}, function (err) {
+					console.log('Unable To Obtain User');
+					reject("Failed to validate query.");
+				});
+			});
+
+			sleep(1000).then(() => {
+				resolve(resArr);
+			});
+			
+		});
+	}
+
+	// Remove contact related to a user
+	deleteContact(username, contact) {
+		return new Promise((resolve, reject) => {
+
+				let sql = "DELETE FROM contacts WHERE username = ? AND contact = ?";
+				let inserts = [username, contact];
+				sql = mysql.format(sql, inserts);
+				let usr = this.query(sql);
+
+				usr.then(function (ret) {
+					console.log('Deleted Contact');
+					resolve(ret);
+				}, function (err) {
+					console.log('Unable To Delete Contact');
+					reject("Failed to validate query.");
+				});
 		});
 	}
 

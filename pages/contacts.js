@@ -1,59 +1,57 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const Database = require('../database/db_queries');
 
 router.post('/remove_chat', bodyParser.urlencoded({ extended: true }), function(req, res){
 
-    if(!req.session.name)
-        res.render('oops', {error : '2'});
+    if (!req.session.name) res.render('oops', {error : '2'});
     else {
-        models.user.findOneAndUpdate({ email : req.session.name }, { $pull : { contacts : req.body.email } }, function (err, res) {
-            if (err) {
-                console.log('unable to delete user from contacts: ', req.body.email);
-            } else {
-                console.log('deleted user from contacts: ', req.body.email);
-            }
+        let db = new Database();
+        let outcome = db.deleteContact(req.session.name, req.body.email);
+
+        outcome.then(function (success) {
+            console.log('Deleted User From Contacts');
+            db.close();
+        }, function (err) {
+            console.log('Unable To Delete User From Contacts');
+            db.close();
         });
     }
 });
 
 router.get('/', function(req, res){
-    if(!req.session.name)
-        res.render('oops', {error : '2'});
-    else {
-        res.render('contacts');
-    }
+    if (!req.session.name) res.render('oops', {error : '2'});
+    else res.render('contacts');
 });
 
 router.get('/live_contacts', function(req, res){
-    if(!req.session.name)
-        res.render('oops', {error : '2'});
+    if (!req.session.name) res.render('oops', {error : '2'});
     else {
-        models.user.findOne({ email : req.session.name }, { contacts : 1 },  function (err, doc){
-            if (err) {
-                console.log('error retrieving current user details - contacts: ', err);
-                res.render('oop', {error : '3'});
+        let db = new Database();
+        let contacts = db.getContacts(req.session.name);
+
+        contacts.then(function (contactArray) {
+            if (contactArray[0]) {
+                let users = db.getContactUsers(contactArray);
+
+                users.then(function (resArr) {
+                    console.log('Contact Array: ', resArr);
+                    res.json({contactArr : resArr});
+                    db.close();
+                }, function (err) {
+                    console.log('Error Creating Contacts Array - Continuing');
+                    res.json({contactArr : []});
+                    db.close();
+                });
             } else {
-                contacts = doc.contacts;
-                if (contacts.length !== 0) {
-                    models.user.find({ isverified : true }, { main_image : 1, username : 1, bio : 1, email : 1 },  function (err, chatters) {
-                        let contArr = new Array;
-                        if (err) {
-                            console.log('error retrieving users - contacts: ', err);
-                        } else {
-                            chatters.forEach(element => {
-                                if (contacts.includes(element.email)) {
-                                    contArr.push(element);
-                                    console.log('put new contact in resulting array: ', element.username, element.email, element.bio);
-                                }
-                            });
-                        }
-                        res.json({ contactArr : contArr });
-                    });
-                } else {
-                    res.json({ contactArr : [] });
-                }
+                res.json({contactArr : []});
+                db.close();
             }
+        }, function (err) {
+            console.log('Unable To Fetch Contacts');
+            db.close();
+            res.render('oops', {error: '3'});
         });
     }
 });
