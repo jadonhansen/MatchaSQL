@@ -11,7 +11,8 @@ html(lang="en")
 
         script.
             function submitform(id) {
-                document.forms[id].submit();
+                document.getElementById(id).submit();
+                //- document.forms[id].submit();
             }
             function submitlink(param) {
                 document.getElementById(param).submit();

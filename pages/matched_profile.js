@@ -1,24 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const Searches = require('../database/db_searches');
 
 router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) {
 
-   if (!req.session.name) {
-      return (res.render('oops', { error: '2' }));
-   } else {
-      // removes images from uload directory when someone accesses this page
-      fs.readdir(process.env.path, function (err, items) {
-         items.forEach(element => {
-            fs.unlink(process.env.path + '/' + element)
-         });
-      });
+   if (!req.session.name) return (res.render('oops', { error: '2' }));
+   else {
+      // // removes images from upload directory when someone accesses this page
+      // fs.readdir(process.env.path, function (err, items) {
+      //    items.forEach(element => {
+      //       fs.unlink(process.env.path + '/' + element)
+      //    });
+      // });
+
+
       if (req.body.unique !== '1') {
          // liking user
          if (req.body.like == '') {
             Models.user.findOne({ '_id': req.body._id }, { password : 0, isverified : 0, contacts : 0, reports : 0, blocked : 0, verif : 0, verif_email : 0}, function (err, doc) {
                // fame increment
-               rating = doc.fame + 1;
+               let rating = doc.fame + 1;
                Models.user.findOneAndUpdate({ '_id': req.body._id }, { fame: rating }, function (err, temp) {
                   if (err) {
                      console.log('could not increment fame rating - like operation: ', err);
@@ -28,7 +30,7 @@ router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) 
                });
                // render and render checks
                Models.user.findOneAndUpdate({ email: req.session.name }, { $addToSet: { likes: doc.username } }, function (err, ret) {
-                  connected = '0';
+                  let connected = '0';
                   if (doc.likes.includes(ret.username)) {
                      connected = '1';
                   }
@@ -338,71 +340,47 @@ router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) 
       }
       // else if req.body.unique == '1'
       else {
-         Models.user.findOne({ email: req.session.name }, { likes : 1, username : 1 }, function (err, check) {
-            Models.user.findOneAndUpdate({ '_id': req.body._id }, { $addToSet: { views: check.username } }, function (err, doc) {
-               // checking for likes, connectivity
-               connected = '0';
-               liked = '0';
-               if (check.likes) {
-                  if (check.likes.includes(doc.username)) {
-                     liked = '1';
-                     if (doc.likes.includes(check.username)) {
-                        connected = '1';
-                        console.log('both connected');
-                     }
-                  }
-               }
-               res.render('matched_profile', {
-                  name: doc.name,
-                  surname: doc.surname,
-                  email: doc.email,
-                  username: doc.username,
-                  status: doc.status,
-                  rating: doc.fame,
-                  gender: doc.gender,
-                  prefferances: doc.prefferances,
-                  age: doc.age,
-                  one: doc.main_image,
-                  two: doc.image_one,
-                  three: doc.image_two,
-                  four: doc.image_three,
-                  five: doc.image_four,
-                  tags: doc.tags,
-                  location: doc.location,
-                  location_status: doc.location_status,
-                  _id: req.body._id,
-                  'liked': liked,
-                  'connected': connected,
-                  bio: doc.bio
-               });
-               // viewed statistics
-               Models.user.findOneAndUpdate({ 'email': req.session.name }, { $addToSet: { viewed: doc.username } }, function (err, temp) {
-                  if (err)
-                     console.log('could not update view history: ', err);
-                  else
-                     console.log('updated the view history')
-               });
-               // notification of viewed profile
-               let roughDate = new Date();
-               let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-               var _notif = new Models.notifications({
-                  email: doc.email,
-                  name: 'profile view',
-                  content: check.username + ' viewed your profile!',
-                  time: newDate,
-                  read: false
-               });
-               _notif.save(function (err) {
-                  if (err)
-                     console.log('could not save notif: ', err);
-                  else
-                     console.log('updated notifications');
-               });
-            });
+         let db = new Searches();
+         let userRender = db.renderMatchedUser(req.session.name, req.body._id);
+
+         userRender.then(function (ret) {
+            res.render('matched_profile', {  name: ret.name,
+                                             surname: ret.surname,
+                                             email: ret.email,
+                                             username: ret.username,
+                                             status: ret.status,
+                                             rating: ret.fame,
+                                             gender: ret.gender,
+                                             prefferances: ret.prefferances,
+                                             age: ret.age,
+                                             one: ret.main_image,
+                                             two: ret.image_one,
+                                             three: ret.image_two,
+                                             four: ret.image_three,
+                                             five: ret.image_four,
+                                             tags: convertArr(ret.tags),
+                                             location: ret.location,
+                                             location_status: ret.location_status,
+                                             _id: req.body._id,
+                                             'liked': ret.liked,
+                                             'connected': ret.connected,
+                                             bio: ret.bio});
+         }, function (err) {
+            console.log(err);
+            res.render('oops', {error : '3'});
          });
       }
    }
 });
+
+function convertArr(tags) {
+   let newArr = new Array;
+
+   tags.forEach(element => {
+       newArr.push(element.tag);
+   });
+   return newArr;
+}
 
 //export this router to use in our index.js
 module.exports = router;
