@@ -1,11 +1,7 @@
 const mysql = require('mysql');
 const db = require('./config');
-const Database = require('../database/db_queries');
 
-// var DB = new Database();
-
-var setupDB = function setupDB() 
-{
+var setupDB = function setupDB() {
 	var connection = mysql.createConnection({
 		host: `${db.servername}`,
 		user: `${db.dbusername}`,
@@ -161,42 +157,6 @@ var setupTables = function setupTables() {
 		});
 	});
 
-	// CREATE DISLIKES TABLE
-
-	var conn = mysql.createConnection( {
-		host: `${db.servername}`,
-		user: `${db.dbusername}`,
-		password: `${db.dbpassword}`,
-		port: `${db.dbport}`,
-		database: `${db.dbname}`
-	});
-
-	conn.connect(function(err) {
-		if (err) throw err;
-
-		conn.query(`SELECT * FROM information_schema.tables
-					WHERE table_schema = 'matcha'
-					AND table_name = 'dislikes'`,
-		function (err, result) {
-			if (err) throw err;
-
-			if (result.length > 0) {
-				console.log('Dislikes Table Already Exists');
-			}
-			else {
-				var sql = `CREATE TABLE IF NOT EXISTS dislikes (
-					disliked LONGTEXT,
-					disliker LONGTEXT
-					);`
-
-				conn.query(sql, function (err, result) {
-					if (err) throw err;
-					console.log('Created dislikes table');
-				});
-			}
-		});
-	});
-
 	// CREATE VIEWS TABLE
 
 	var conn = mysql.createConnection( {
@@ -330,7 +290,8 @@ var setupTables = function setupTables() {
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS reports (
 					reported LONGTEXT,
-					reporter LONGTEXT
+					reporter LONGTEXT,
+					message LONGTEXT
 					);`
 
 				conn.query(sql, function (err, result) {

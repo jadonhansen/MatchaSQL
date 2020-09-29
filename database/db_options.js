@@ -1,7 +1,7 @@
 const db = require('./config');
 const mysql = require('mysql');
 
-class Likes {
+class Options {
 
 	constructor() {
 		this.connection = mysql.createConnection({
@@ -22,49 +22,74 @@ class Likes {
 		});
 	}
 
-	// find user by id
-	// increment fame of id
-	// add user into curruser likes
-	// remove user from curruser blocked list if blocked
-	// determine if user has liked back - if yes = connected
-	// do new like notification
-	// return user info && tags && connected
-	likeUser(id, currUser) {
+	// decrement fame
+	// remove both liked and like by user
+	// render user, tags and 0 for like and conn
+	blockUser(id, currUser) {
 		return new Promise((resolve, reject) => {
-			let sql = "UPDATE users SET fame = fame + 1 WHERE userID = ?";
+			let sql = "UPDATE users SET fame = fame - 1 WHERE userID = ?";
 			let inserts = [id];
 			sql = mysql.format(sql, inserts);
 			let updatedUsr = this.query(sql);
+			let a  = this;
+
+			let usr = this.getMatchedUser(id);
+			usr.then(function (matched) {
+
+				let del = a.deleteLikes(matched.username, currUser);
+				del.then(function (success) {
+
+					let block = a.addBlockedUser(matched.username, currUser);
+					block.then(function (succ) {
+
+						let tags = a.getUserTags(matched.username);
+						tags.then(function (tagsArr) {
+	
+							matched.tags = tagsArr;
+							matched.liked = 0;
+							matched.connected = 0;
+							resolve(matched);
+						}, function (err) {
+							reject(err);
+						});
+					}, function (err) {
+						reject(err);
+					});
+				}, function (err) {
+					reject(err);
+				});
+			}, function (err) {
+				reject(err);
+			});
+		});
+	}
+
+	// create report record
+	// determine connectivity
+	// return user, taggs, conn state
+	reportUser(id, currUser, message) {
+		return new Promise((resolve, reject) => {
 
 			let usr = this.getMatchedUser(id);
 			let a = this;
 
 			usr.then(function (matched) {
+				if (matched) {
+					let sql = "INSERT INTO reports (reported, reporter, message) VALUES(?, ?, ?)";
+					let inserts = [matched.username, currUser, message];
+					sql = mysql.format(sql, inserts);
+					let report = a.query(sql);
 
-				let sql = "INSERT INTO likes (liked, liker) VALUES(?, ?)";
-				let inserts = [matched.username, currUser];
-				sql = mysql.format(sql, inserts);
-				let inserted = a.query(sql);
-
-				inserted.then(function (success) {
-					a.likedNotification(matched.username, currUser);
-
-					let sqll = "DELETE FROM blocks WHERE blocked = ? AND blocker = ?";
-					let insertss = [matched.username, currUser];
-					sqll = mysql.format(sqll, insertss);
-					let del = a.query(sqll);
-
-					del.then(function (success) {
-
+					report.then(function (success) {
 						let conn = a.determineConnectivity(currUser, matched.username);
+
 						conn.then(function (connect) {
+							let tags = a.getUserTags(currUser);
 
-							let tags = a.getUserTags(matched.username);
 							tags.then(function (tagsArr) {
-
-								matched.tags = tagsArr;
-								matched.liked = 1;
 								matched.connected = connect.c;
+								matched.liked = connect.l;
+								matched.tags = tagsArr;
 								resolve(matched);
 							}, function (err) {
 								reject(err);
@@ -75,9 +100,8 @@ class Likes {
 					}, function (err) {
 						reject(err);
 					});
-				}, function (err) {
-					reject(err);
-				});
+				}
+				else reject('Unable to Fetch User');
 			}, function (err) {
 				reject(err);
 			});
@@ -103,6 +127,50 @@ class Likes {
 				reject('Unable To Fetch Matched User');
 			});
 		});	
+	}
+
+	addBlockedUser(matched, currUser) {
+		return new Promise((resolve, reject) => {
+			let sql = "INSERT INTO blocks (blocker, blocked) VALUES (?, ?)";
+			let inserts = [currUser, matched];
+			sql = mysql.format(sql, inserts);
+			let block = this.query(sql);
+
+			block.then(function (success) {
+				console.log('Blocked User Succesfully');
+				resolve();
+			}, function (err) {
+				reject('Unable To Block User');
+			});
+		});
+	}
+
+	deleteLikes(matched, currUser) {
+		return new Promise((resolve, reject) => {
+			let sql = "DELETE FROM likes WHERE liked = ? AND liker = ?";
+			let inserts = [matched, currUser];
+			sql = mysql.format(sql, inserts);
+			let del = this.query(sql);
+
+			del.then(function (success) {
+				console.log('Deleted Liked Record');
+				resolve();
+			}, function (err) {
+				reject('Unable To Delete Liked Record');
+			});
+
+			let sqll = "DELETE FROM likes WHERE liked = ? AND liker = ?";
+			let insertss = [currUser, matched];
+			sqll = mysql.format(sqll, insertss);
+			let delet = this.query(sqll);
+
+			delet.then(function (success) {
+				console.log('Deleted Like Record');
+				resolve();
+			}, function (err) {
+				reject('Unable To Delete Like Record');
+			});
+		});
 	}
 
 	determineConnectivity(currUser, matched) {
@@ -137,11 +205,11 @@ class Likes {
 		});
 	}
 
-	// returns user tags
+	// returns users tags
 	getUserTags(username) {
 		return new Promise((resolve, reject) => {
 
-			let sql = "SELECT tag FROM tags WHERE user = ?";
+			let sql = "SELECT * FROM tags WHERE user = ?";
 			let inserts = [username];
 			sql = mysql.format(sql, inserts);
 			let tags = this.query(sql);
@@ -159,21 +227,6 @@ class Likes {
 		});
 	}
 
-	likedNotification(matched, currUser) {
-		let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
-		let roughDate = new Date();
-		let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-		let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
-		sql = mysql.format(sql, inserts);
-		let notif = this.query(sql);
-
-		notif.then(function (ret) {
-			console.log('Added Like Notification');
-		}, function (err) {
-			console.log('Unable To Add Like Notification');
-		});
-	}
-
 	close() {
 		return new Promise((resolve, reject) => {
 			this.connection.end(err => {
@@ -184,4 +237,4 @@ class Likes {
 	}
 }
 
-module.exports = Likes;
+module.exports = Options;
