@@ -29,14 +29,14 @@ router.get('/', function(req, res){
 
       user.then(function(usr) {
          if (!usr[0]) {
-            return(res.render('oops', {error: '1'}));
+            return res.render('oops', {error: '1'});
          }
 
          let tags = db.getUserTags(req.session.name);
-         tags.then(function(tagArr){
+         tags.then(function(tagArr) {
 
             let views = db.getUserViews(req.session.name);
-            views.then(function(viewsArr){
+            views.then(function(viewsArr) {
 
                let viewed = db.getUserViewed(req.session.name);
                viewed.then(function(viewedArr) {
@@ -47,11 +47,11 @@ router.get('/', function(req, res){
                      let liked = db.getUserLiked(req.session.name);
                      liked.then(function(likedArr) {
 
-                        console.log(likedArr);
-                        console.log(likesArr);
-                        console.log(viewedArr);
-                        console.log(viewsArr);
-                        console.log(tagArr);
+                        console.log('Liked: ', likedArr);
+                        console.log('Likes: ', likesArr);
+                        console.log('Viewed: ', viewedArr);
+                        console.log('Views: ', viewsArr);
+                        console.log('Tags: ', tagArr);
 
                         res.render('profile', {name: usr[0].name,
                            surname: usr[0].surname,
@@ -74,13 +74,29 @@ router.get('/', function(req, res){
                            location_status: usr[0].location_status,
                            location: usr[0].location,
                            bio: usr[0].bio});
+                     }, function(err) {
+                        console.log(err);
+                        return res.render('oops', {error: '3'});
                      });
+                  }, function(err) {
+                     console.log(err);
+                     return res.render('oops', {error: '3'});
                   });
+               }, function(err) {
+                  console.log(err);
+                  return res.render('oops', {error: '3'});
                });
+            }, function(err) {
+               console.log(err);
+               return res.render('oops', {error: '3'});
             });
+         }, function(err) {
+            console.log(err);
+            return res.render('oops', {error: '3'});
          });
       }, function(err) {
-         return(res.render('oops', {error: '1'}));
+         console.log(err);
+         return res.render('oops', {error: '1'});
       });
    }
 });

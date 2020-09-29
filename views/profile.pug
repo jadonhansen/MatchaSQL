@@ -66,15 +66,15 @@ html(lang="en")
                         .row.ml-0.mr-0
                             .col-md-5
                                 p.statfont You have liked:
-                                    if likes.length !== 0
-                                        for paper in likes
+                                    if liked.length !== 0
+                                        for paper in liked
                                             p.statsmall.ml-2= paper
                                     else
                                         p.statsmall.ml-2 None
                             .col
                                 p.statfont Your profile was liked by:
-                                    if liked.length !== 0
-                                        for fax in liked
+                                    if likes.length !== 0
+                                        for fax in likes
                                             p.statsmall.ml-2= fax
                                     else
                                         p.statsmall.ml-2 No likes

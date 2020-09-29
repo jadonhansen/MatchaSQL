@@ -22,6 +22,27 @@ class Searches {
 		});
 	}
 
+	// returns users tags
+	getUserTags(username) {
+		return new Promise((resolve, reject) => {
+
+			let sql = "SELECT * FROM tags WHERE user = ?";
+			let inserts = [username];
+			sql = mysql.format(sql, inserts);
+			let tags = this.query(sql);
+
+			tags.then(function (ret) {
+				let arr = new Array();
+				ret.forEach(element => {
+					arr.push(element.tag);
+				});
+				resolve(arr);
+			}, function (err) {
+				reject("Failed to validate query.");
+			});
+		});
+	}
+
 	// returns an array of objects containing current users details for matching
 	getUserSpecs(username) {
 		return new Promise((resolve, reject) => {

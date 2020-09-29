@@ -74,8 +74,11 @@ class Matches {
 			let user = this.query(sql);
 
 			user.then(function (ret) {
-				console.log('Fetched Matched User');
-				resolve(ret[0]);
+				if (ret[0]) {
+					console.log('Fetched Matched User');
+					resolve(ret[0]);
+				}
+				else reject('Unable To Fetch Matched User');
 			}, function (err) {
 				console.log('Unable To Fetch Matched User');
 				reject("Failed to validate query.");
@@ -89,20 +92,21 @@ class Matches {
 			let inserts = [matched, currUser];
 			sql = mysql.format(sql, inserts);
 			let liked = this.query(sql);
-	
+			let a  = this;
+
 			let l = 0;
 			let c = 0;
 			liked.then(function (like) {
 				if (like[0]) {
 					l = 1;
-	
+
 					let sql = "SELECT * FROM likes WHERE liked = ? AND liker = ?";
 					let inserts = [currUser, matched];
 					sql = mysql.format(sql, inserts);
-					let connect = this.query(sql);
+					let connect = a.query(sql);
 	
 					connect.then(function (conn) {
-						if (conn[0]) c = 0;
+						if (conn[0]) c = 1;
 						resolve({'l' : l, 'c' : c});
 					});
 				} else {
@@ -144,18 +148,22 @@ class Matches {
 		});
 	}
 
-	// returns user tags
+	// returns users tags
 	getUserTags(username) {
 		return new Promise((resolve, reject) => {
 
-			let sql = "SELECT tag FROM tags WHERE user = ?";
+			let sql = "SELECT * FROM tags WHERE user = ?";
 			let inserts = [username];
 			sql = mysql.format(sql, inserts);
 			let tags = this.query(sql);
 
 			tags.then(function (ret) {
-				console.log('Selected All Tags: ', ret);
-				resolve(ret);
+				let arr = new Array();
+				ret.forEach(element => {
+					arr.push(element.tag);
+				});
+				console.log('Selected All Tags: ', arr);
+				resolve(arr);
 			}, function (err) {
 				reject('Unable To Select All Tags');
 			});

@@ -1,7 +1,7 @@
 const db = require('./config');
 const mysql = require('mysql');
 
-class Likes {
+class Unlikes {
 
 	constructor() {
 		this.connection = mysql.createConnection({
@@ -23,15 +23,14 @@ class Likes {
 	}
 
 	// find user by id
-	// increment fame of id
-	// add user into curruser likes
-	// remove user from curruser blocked list if blocked
-	// determine if user has liked back - if yes = connected
-	// do new like notification
+	// decrement fame of id
+	// remove user from curruser likes
+	// do new unlike notification
+	// send back 0 for conn and 0 for like
 	// return user info && tags && connected
-	likeUser(id, currUser) {
+	unlikeUser(id, currUser) {
 		return new Promise((resolve, reject) => {
-			let sql = "UPDATE users SET fame = fame + 1 WHERE userID = ?";
+			let sql = "UPDATE users SET fame = fame - 1 WHERE userID = ?";
 			let inserts = [id];
 			sql = mysql.format(sql, inserts);
 			let updatedUsr = this.query(sql);
@@ -40,44 +39,21 @@ class Likes {
 			let a = this;
 
 			usr.then(function (matched) {
-
-				let sql = "INSERT INTO likes (liked, liker) VALUES(?, ?)";
+				let sql = "DELETE FROM likes WHERE liked = ? AND liker = ?";
 				let inserts = [matched.username, currUser];
 				sql = mysql.format(sql, inserts);
-				let inserted = a.query(sql);
+				let deleted = a.query(sql);
 
-				inserted.then(function (success) {
-					a.likedNotification(matched.username, currUser);
+				deleted.then (function (success) {
+					a.unlikedNotification(matched.username, currUser);
 
-					let sql = "DELETE FROM blocks WHERE blocked = ? AND blocker = ?";
-					let inserts = [matched.username, currUser];
-					sql = mysql.format(sql, inserts);
-					let del = a.query(sql);
+					let tags = a.getUserTags(matched.username);
 
-					del.then(function (success) {
-
-						let sql = "SELECT liker FROM likes WHERE liked = ?";
-						let inserts = [currUser];
-						sql = mysql.format(sql, inserts);
-						let likedUsr = a.query(sql);
-
-						likedUsr.then(function (retUser) {
-							let connected = 0;
-							if (retUser[0] && retUser[0] == matched.username) connected = 1;
-
-							let tags = a.getUserTags(matched.username);
-
-							tags.then(function (tagsArr) {
-								matched.tags = tagsArr;
-								matched.liked = 1;
-								matched.connected = connected;
-								resolve(matched);
-							}, function (err) {
-								reject(err);
-							});
-						}, function (err) {
-							reject(err);
-						});
+					tags.then(function (tagArr) {
+						matched.tags = tagArr;
+						matched.liked = 0;
+						matched.connected = 0;
+						resolve(matched);
 					}, function (err) {
 						reject(err);
 					});
@@ -133,18 +109,18 @@ class Likes {
 		});
 	}
 
-	likedNotification(matched, currUser) {
+	unlikedNotification(matched, currUser) {
 		let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
 		let roughDate = new Date();
 		let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-		let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
+		let inserts = [matched, 'unliked', 'you were just unliked by ' + currUser, newDate, 0];
 		sql = mysql.format(sql, inserts);
 		let notif = this.query(sql);
 
 		notif.then(function (ret) {
-			console.log('Added Like Notification');
+			console.log('Added Unlike Notification');
 		}, function (err) {
-			console.log('Unable To Add Like Notification');
+			console.log('Unable To Add Unlike Notification');
 		});
 	}
 
@@ -158,4 +134,4 @@ class Likes {
 	}
 }
 
-module.exports = Likes;
+module.exports = Unlikes;

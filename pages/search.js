@@ -13,7 +13,6 @@ router.get('/', function(req, res) {
         let tags = db.getUserTags(req.session.name);
 
         tags.then(function (ret) {
-            ret = convertArr(ret);
             res.render('search', { 'tags' : ret });
             db.close();
         }, function (err) {
@@ -38,7 +37,6 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
     let tags = db.getUserTags(req.session.name);
 
     tags.then(function (tagArray) {
-        tagArray = convertArr(tagArray);
         let user = db.getUserSpecs(req.session.name);
 
         user.then(function (currUser) {
@@ -101,7 +99,7 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                         // REQUIRED FILTERING
                         // automatic fame filter - removes users with a rating bigger than yours
                         if (!req.body.advanced_search && !req.body.rating) {
-                            if (users[i].fame > currUser.fame) {
+                            if (users[i].fame > currUser.fame + 1) {
                                 console.log('removed larger fame rated users: ', users[i].username);
                                 users.splice(i, 1);
                                 break;
@@ -130,8 +128,6 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
 
                             await userTags.then(function (usrTags) {
                                 let a = 0;
-                                usrTags = convertArr(usrTags);
-
                                 while (tagArray[a]) {
                                     if (usrTags && usrTags.includes(tagArray[a])) {
                                         match = true;
@@ -186,7 +182,6 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                                 let a = 0;
 
                                 await usrTags.then(function (userTags) {
-                                    userTags = convertArr(userTags);
                                     while (req.body.color[a]) {
                                         if (userTags && userTags.includes(req.body.color[a]))
                                             a++;
