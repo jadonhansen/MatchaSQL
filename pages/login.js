@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 router.post('/', bodyParser.urlencoded({extended: true}), function(req, ress){
 
    db = new Database();
-
    let loginAttempt = db.login(req.body.username, req.body.password);
 
    loginAttempt.then(function(attemptRes) {
@@ -27,24 +26,24 @@ router.post('/', bodyParser.urlencoded({extended: true}), function(req, ress){
 
             db = new Database();
             db.query(`UPDATE users set location = '${ipLocat}' WHERE username = '${req.body.username}'`);
+            db.close();
          }
       }).catch(error => {
          console.log('Ipinfo Axios Error: ', error);
+         db.close();
       });
 
       //setting session
       req.session.name = req.body.username;
       ress.redirect('/profile');
-   },
-   function(err) {
+   }, function(err) {
       if (err == 'Incorrect password' || err == 'Username does not exist.') {
-         ress.render('oops', {err: '1'});
+         ress.render('oops', {error: '1'});
       } else if (err == 'Please confirm your email with the link sent to continue.') {
-         ress.render('oops', {err: '6'});
+         ress.render('oops', {error: '6'});
       }
       db.close();
    });
-
 });
 
 module.exports = router;

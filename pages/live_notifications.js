@@ -44,8 +44,8 @@ router.get('/', (req, res) => {
 
     let db = new Database();
 
-    let sql = "SELECT * FROM notifications WHERE username = ?";
-    let inserts = [req.session.name];
+    let sql = "SELECT * FROM notifications WHERE username = ? AND readNotif = ?";
+    let inserts = [req.session.name, 0];
     sql = mysql.format(sql, inserts);
     let notifs = db.query(sql);
 
