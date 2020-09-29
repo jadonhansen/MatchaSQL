@@ -6,8 +6,8 @@ var transporter = nodemailer.createTransport({
 	port: 587,
 	secure: false,
 	auth: {
-		user: 'matchaccnts@gmail.com',
-		pass: 'matcha2020WTC'
+		user: process.env.smtp,
+		pass: process.env.password
 	}
 });
 
@@ -18,7 +18,7 @@ var confirm_email = function confirm_email(email, code) {
 			reject ("No valid email given.");
 
 		var mailOptions = {
-			from: 'ftmatcha@gmail.com',
+			from: process.env.smtp,
 			to: `${email}`,
 			subject: 'Email Confirmation',
 			text: `Please verify your email using this link: http://localhost:3306/${code}`
@@ -38,7 +38,7 @@ var password_reset_link = function password_reset_link(email, code) {
 			reject ("No valid email given.");
 
 		var mailOptions = {
-			from: 'ftmatcha@gmail.com',
+			from: process.env.smtp,
 			to: `${email}`,
 			subject: 'Password Reset Link',
 			text: `Your password reset link: http://localhost:3306/${code}`
@@ -57,7 +57,7 @@ var updatedEmailLink = function updatedEmailLink(email, code) {
 			reject ("No valid email given.");
 
 		var mailOptions = {
-			from: 'ftmatcha@gmail.com',
+			from: process.env.smtp,
 			to: `${email}`,
 			subject: 'Updated Email Link',
 			text: `Your password reset link: http://localhost:3306/check/${code}`

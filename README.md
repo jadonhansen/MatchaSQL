@@ -8,6 +8,8 @@ quite refreshing to use with your match!
 	2. secret=128936GS71gd92JKJAF3701237
 	3. path= path to the root directory/MatchaSQL/uploads/
 	4. TOKEN= IPInfo token for IP tracking (this will require a free IPInfo account)
+	5. smtp= gmail account for sending emails
+	6. password= gmail account password
 - In the root project directory in your terminal run the command 'npm install'.
 - In the same directory run the command 'npm start'.
 - Make sure you have MAMP running for a connection to the SQL database - all config constants are found in database/config.js.

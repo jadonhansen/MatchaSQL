@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const fs = require('fs-extra');
 const Matches = require('../database/db_matches');
 const Likes = require('../database/db_likes');
 const Unlikes = require('../database/db_unlikes');
@@ -10,12 +11,12 @@ router.post('/', bodyParser.urlencoded({ extended: true }), function (req, res) 
 
    if (!req.session.name) return (res.render('oops', { error: '2' }));
    else {
-      // // removes images from upload directory when someone accesses this page
-      // fs.readdir(process.env.path, function (err, items) {
-      //    items.forEach(element => {
-      //       fs.unlink(process.env.path + '/' + element)
-      //    });
-      // });
+      // removes images from upload directory when someone accesses this page
+      fs.readdir(process.env.path, function (err, items) {
+         items.forEach(element => {
+            fs.unlink(process.env.path + '/' + element)
+         });
+      });
 
       if (req.body.unique !== '1') {
 
