@@ -36,7 +36,6 @@ router.get('/live_contacts', function(req, res){
                 let users = db.getContactUsers(contactArray);
 
                 users.then(function (resArr) {
-                    console.log('Contact Array: ', resArr);
                     res.json({contactArr : resArr});
                     db.close();
                 }, function (err) {

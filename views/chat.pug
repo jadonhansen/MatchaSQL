@@ -13,7 +13,8 @@ html(lang="en")
                 document.getElementById(param).submit();
             }
             function submitform(id) {
-                document.forms[id].submit();
+                document.getElementById(id).submit();
+                //- document.forms[id].submit();
             }
 
     body#chatBody

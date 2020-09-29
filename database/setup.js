@@ -362,7 +362,7 @@ var setupTables = function setupTables() {
 			if (err) throw err;
 
 			if (result.length > 0) {
-				console.log('Notifications Table Already Exists');
+				console.log('Contacts Table Already Exists');
 			}
 			else {
 				var sql = `CREATE TABLE IF NOT EXISTS contacts (
