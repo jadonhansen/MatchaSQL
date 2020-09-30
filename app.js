@@ -43,6 +43,7 @@ const chat                = require('./pages/chat.js');
 const tags                = require('./pages/tags.js');
 const oops                = require('./pages/oops.js');
 const live_notifications  = require('./pages/live_notifications.js')
+const admin               = require('./pages/admin.js');
 
 /*
 * Page Routing
@@ -52,6 +53,7 @@ app.use('/', index);
 app.use('/home', home);
 app.use('/login', login);
 app.use('/create', create);
+app.use('/admin', admin);
 app.use('/chat', chat);
 app.use('/forgot_password', forgot_password);
 app.use('/contacts', contacts);
