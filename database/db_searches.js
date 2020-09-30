@@ -38,7 +38,7 @@ class Searches {
 				});
 				resolve(arr);
 			}, function (err) {
-				reject("Failed to validate query.");
+				reject(err);
 			});
 		});
 	}
@@ -77,6 +77,22 @@ class Searches {
 				reject("Failed to validate query.");
 			});
 		});	
+	}
+
+	inBlockList(user, currUser) {
+		return new Promise((resolve, reject) => {
+			let sql = "SELECT * FROM blocks WHERE blocked = ? AND blocker = ?";
+			let inserts = [user, currUser];
+			sql = mysql.format(sql, inserts);
+			let usr = this.query(sql);
+
+			usr.then(function (ret) {
+				if (ret[0]) resolve(1);
+				else reject(0);
+			}, function (err) {
+				reject('Unable To Scan Block List');
+			});
+		});
 	}
 
 	close() {

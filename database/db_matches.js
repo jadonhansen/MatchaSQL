@@ -162,7 +162,6 @@ class Matches {
 				ret.forEach(element => {
 					arr.push(element.tag);
 				});
-				console.log('Selected All Tags: ', arr);
 				resolve(arr);
 			}, function (err) {
 				reject('Unable To Select All Tags');

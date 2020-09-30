@@ -46,6 +46,7 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
 
                 let i = 0;
                 while (users[i]) {
+                    console.log(users[i].username);
                     while (users[i]) {
                         // BY CURRENT USER PREFERENCES
                         // if user is me
@@ -97,6 +98,26 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                             }
                         }
                         // REQUIRED FILTERING
+                        // automatic blocking filter
+                        if (users[i].username) {
+                            let match = false;
+                            let DB = new Searches();
+                            let outcome = DB.inBlockList(users[i].username, currUser.username);
+
+                            await outcome.then(function (success) {
+                                match = false;
+                                DB.close();
+                            }, function (err) {
+                                match = true;
+                                if (err == 'Unable To Scan Block List') console.log(err);
+                                DB.close();
+                            });
+                            if (match !== true) {
+                                console.log('removed user who is in blocked list: ', users[i].username);
+                                users.splice(i, 1);
+                                break;
+                            }
+                        }
                         // automatic fame filter - removes users with a rating bigger than yours
                         if (!req.body.advanced_search && !req.body.rating) {
                             if (users[i].fame > currUser.fame) {
@@ -128,23 +149,25 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
 
                             await userTags.then(function (usrTags) {
                                 let a = 0;
-                                while (tagArray[a]) {
-                                    if (usrTags && usrTags.includes(tagArray[a])) {
-                                        match = true;
-                                        break;
+                                if (!usrTags[0]) match = true;
+                                else {
+                                    while (tagArray[a]) {
+                                        if (usrTags && usrTags.includes(tagArray[a])) {
+                                            match = true;
+                                            break;
+                                        }
+                                        a++;
                                     }
-                                    a++;
                                 }
-                                db.close();
                             }, function (err) {
-                                console.log(err);
+                                console.log('Tags: ', err);
                             });
                             if (match !== true) {
                                 console.log('removed user with no matched tags: ', users[i].username);
                                 users.splice(i, 1);
                                 break;
                             }
-                        }
+                        }                        
 
                         // ADVANCED FILTERS BELOW
                         if (req.body.advanced_search) {
@@ -219,14 +242,5 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
         db.close();
     });
 });
-
-function convertArr(tags) {
-    let newArr = new Array;
-
-    tags.forEach(element => {
-        newArr.push(element.tag);
-    });
-    return newArr;
-}
 
 module.exports = router;
