@@ -120,7 +120,7 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                         }
                         // automatic fame filter - removes users with a rating bigger than yours
                         if (!req.body.advanced_search && !req.body.rating) {
-                            if (users[i].fame > currUser.fame) {
+                            if (users[i].fame > currUser.fame + 1) {
                                 console.log('removed larger fame rated users: ', users[i].username);
                                 users.splice(i, 1);
                                 break;

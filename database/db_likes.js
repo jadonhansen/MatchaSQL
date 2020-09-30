@@ -159,18 +159,29 @@ class Likes {
 		});
 	}
 
+	// only generate like notif when user not in blocked list
 	likedNotification(matched, currUser) {
-		let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
-		let roughDate = new Date();
-		let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-		let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
+		let sql = "SELECT * FROM blocks WHERE blocker = ? AND blocked = ?";
+		let inserts = [matched, currUser];
 		sql = mysql.format(sql, inserts);
-		let notif = this.query(sql);
+		let outcome = this.query(sql);
+		let a = this;
 
-		notif.then(function (ret) {
-			console.log('Added Like Notification');
-		}, function (err) {
-			console.log('Unable To Add Like Notification');
+		outcome.then(function (blocks) {
+			if (!blocks[0]) {
+				let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
+				let roughDate = new Date();
+				let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
+				let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
+				sql = mysql.format(sql, inserts);
+				let notif = a.query(sql);
+		
+				notif.then(function (ret) {
+					console.log('Added Like Notification');
+				}, function (err) {
+					console.log('Unable To Add Like Notification');
+				});
+			}
 		});
 	}
 

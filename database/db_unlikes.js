@@ -109,18 +109,29 @@ class Unlikes {
 		});
 	}
 
+	// only generate unlike notif when user not in blocked list
 	unlikedNotification(matched, currUser) {
-		let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
-		let roughDate = new Date();
-		let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-		let inserts = [matched, 'unliked', 'you were just unliked by ' + currUser, newDate, 0];
+		let sql = "SELECT * FROM blocks WHERE blocker = ? AND blocked = ?";
+		let inserts = [matched, currUser];
 		sql = mysql.format(sql, inserts);
-		let notif = this.query(sql);
+		let outcome = this.query(sql);
+		let a = this;
 
-		notif.then(function (ret) {
-			console.log('Added Unlike Notification');
-		}, function (err) {
-			console.log('Unable To Add Unlike Notification');
+		outcome.then(function (blocks) {
+			if (!blocks[0]) {
+				let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
+				let roughDate = new Date();
+				let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
+				let inserts = [matched, 'unliked', 'you were just unliked by ' + currUser, newDate, 0];
+				sql = mysql.format(sql, inserts);
+				let notif = a.query(sql);
+		
+				notif.then(function (ret) {
+					console.log('Added Unlike Notification');
+				}, function (err) {
+					console.log('Unable To Add Unlike Notification');
+				});
+			}
 		});
 	}
 
