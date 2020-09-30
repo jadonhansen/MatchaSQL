@@ -1,1 +1,3 @@
-username=jhansen, password = 12345678
+normal user: username = jhansen, password = 12345678
+normal user: username = trisha, password = 12345678
+admin user: username = jadonhansen, password = 12345678

@@ -169,19 +169,47 @@ class Likes {
 
 		outcome.then(function (blocks) {
 			if (!blocks[0]) {
-				let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
-				let roughDate = new Date();
-				let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
-				let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
+
+				let sql = "SELECT * FROM likes WHERE liker = ? AND liked = ?";
+				let inserts = [matched, currUser];
 				sql = mysql.format(sql, inserts);
-				let notif = a.query(sql);
-		
-				notif.then(function (ret) {
-					console.log('Added Like Notification');
+				let usr = a.query(sql);
+
+				usr.then(function (user) {
+					if (user[0]) a.likeBackNotif(matched, currUser);
+					else {
+						let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
+						let roughDate = new Date();
+						let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
+						let inserts = [matched, 'liked', 'you were just liked by ' + currUser, newDate, 0];
+						sql = mysql.format(sql, inserts);
+						let notif = a.query(sql);
+				
+						notif.then(function (ret) {
+							console.log('Added Like Notification');
+						}, function (err) {
+							console.log('Unable To Add Like Notification');
+						});
+					}
 				}, function (err) {
-					console.log('Unable To Add Like Notification');
+					console.log('Unable To Search For Liked User: ', err);
 				});
 			}
+		});
+	}
+
+	likeBackNotif(matched, currUser) {
+		let sql = "INSERT INTO notifications (username, name, content, timeNotif, readNotif) VALUES (?, ?, ?, ?, ?)";
+		let roughDate = new Date();
+		let newDate = roughDate.toLocaleTimeString() + ' ' + roughDate.toLocaleDateString();
+		let inserts = [matched, 'liked back', 'you were just liked back by ' + currUser, newDate, 0];
+		sql = mysql.format(sql, inserts);
+		let notif = this.query(sql);
+
+		notif.then(function (ret) {
+			console.log('Added Liked Back Notification');
+		}, function (err) {
+			console.log('Unable To Add Liked Back Notification');
 		});
 	}
 
