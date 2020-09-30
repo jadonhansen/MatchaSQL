@@ -1,5 +1,8 @@
 const mysql = require('mysql');
 const db = require('./config');
+const Database = require('./db_queries');
+
+var DB = new Database();
 
 var setupDB = function setupDB() {
 	var connection = mysql.createConnection({
@@ -53,16 +56,16 @@ var setupTables = function setupTables() {
 						username TINYTEXT NOT NULL,
 						email LONGTEXT NOT NULL,
 						password LONGTEXT NOT NULL,
-						name LONGTEXT,
-						surname LONGTEXT,
-						gender LONGTEXT,
+						name LONGTEXT NOT NULL,
+						surname LONGTEXT NOT NULL,
+						gender LONGTEXT NOT NULL,
 						main_image LONGTEXT,
 						image_one LONGTEXT,
 						image_two LONGTEXT,
 						image_three LONGTEXT,
 						image_four LONGTEXT,
-						age int(11),
-						prefferances LONGTEXT,
+						age int(11) NOT NULL,
+						prefferances LONGTEXT NOT NULL,
 						bio LONGTEXT,
 						location LONGTEXT,
 						location_status int(11) default 1,
@@ -75,7 +78,57 @@ var setupTables = function setupTables() {
 
 					conn.query(sql, function (erro, result) {
 						if (erro) throw erro;
-						console.log('Created user table');
+						else {
+							// Male users
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("jhansen", "jadongavhansen@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Jadon", "Hansen", "Male", 20, "Female", "Surfer dude 4 life", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("cdiogo", "calvinogo@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Calvin", "Diogo", "Male", 22, "Female", "Race car driver :)", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("jlimbada", "jfflim@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Jeff", "Limbada", "Male", 21, "Male", "Programmer", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("ayano", "ayano@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Arata", "Yano", "Male", 23, "Male", "Imposter Syndrome", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("bwebb", "bwebb@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Ben", "Webb", "Male", 20, "Bi-Sexual", "Wannabe Surfer", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("lkriel", "kriel@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Liam", "Krieling", "Male", 19, "Bi-Sexual", "Strange MF", "Cape Town", 1, 0, 1)`);
+
+							// Female users
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("trisha", "trish@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Trish", "Alaking", "Female", 21, "Male", "hi", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("carlayeng", "yengdeng@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Carla", "Yeng", "Female", 24, "Male", "yoooo whassup", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("ginnna", "gina@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Gina", "Nina", "Female", 23, "Female", "generic sh*t", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("kitty", "kit@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Kitty", "Nemo", "Female", 28, "Female", "ayo ayo", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("sparkly", "spark@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Spark", "Shark", "Female", 25, "Bi-Sexual", "rainbows pls", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("candizz", "candice@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Candice", "Lemont", "Female", 27, "Bi-Sexual", "food", "Cape Town", 1, 0, 1)`);
+
+							// Other users
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("heartly", "lerom@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerom", "Centa", "Other", 26, "Male", "new things", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("simone", "simon@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Simone", "Tesla", "Other", 21, "Male", "gadgetyyy", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("romania", "roman@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Romania", "Retricia", "Other", 29, "Female", "trendyy", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("lucass", "lucas@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lucase", "Gerard", "Other", 20, "Female", "horses 4 life", "Cape Town", 1, 0, 1)`);
+
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("leroma", "lerom@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerome", "Stjui", "Other", 19, "Bi-Sexual", "candy stores 'r life", "Cape Town", 1, 0, 1)`);
+							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
+							VALUES ("Schen", "schenn@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Schen", "Zintju", "Other", 28, "Bi-Sexual", "big city life", "Cape Town", 1, 0, 1)`);
+
+							console.log('Created user table');
+						}
 					});
 				}
 		});
@@ -373,6 +426,45 @@ var setupTables = function setupTables() {
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
 					console.log('Created contacts table');
+				});
+			}
+		});
+	});
+
+	// CREATE ADMIN TABLE
+
+	var conn = mysql.createConnection( {
+		host: `${db.servername}`,
+		user: `${db.dbusername}`,
+		password: `${db.dbpassword}`,
+		port: `${db.dbport}`,
+		database: `${db.dbname}`
+	});
+
+	conn.connect(function(err) {
+		if (err) throw err;
+
+		conn.query(`SELECT * FROM information_schema.tables
+					WHERE table_schema = 'matcha'
+					AND table_name = 'admin'`,
+		function (err, result) {
+			if (err) throw err;
+
+			if (result.length > 0) console.log('Admin Table Already Exists');
+			else {
+				var sql = `CREATE TABLE IF NOT EXISTS admin (
+					username LONGTEXT NOT NULL,
+					password LONGTEXT NOT NULL
+					);`
+
+				conn.query(sql, function (err, result) {
+					if (err) throw err;
+					else {
+						// Admin user
+						DB.query(`INSERT INTO admin (username, password) VALUES ("jadonhansen", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu")`);
+						DB.close();
+						console.log('Created admin table');
+					}
 				});
 			}
 		});
