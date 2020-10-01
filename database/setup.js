@@ -125,7 +125,7 @@ var setupTables = function setupTables() {
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
 							VALUES ("leroma", "lerom@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerome", "Stjui", "Other", 19, "Bi-Sexual", "candy stores 'r life", "Cape Town", 1, 0, 1)`);
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("Schen", "schenn@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Schen", "Zintju", "Other", 28, "Bi-Sexual", "big city life", "Cape Town", 1, 0, 1)`);
+							VALUES ("schen", "schenn@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Schen", "Zintju", "Other", 28, "Bi-Sexual", "big city life", "Cape Town", 1, 0, 1)`);
 
 							console.log('Created user table');
 						}
@@ -276,6 +276,45 @@ var setupTables = function setupTables() {
 
 				conn.query(sql, function (err, result) {
 					if (err) throw err;
+					else {
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "jhansen")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "cdiogo")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "jlimbada")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "ayano")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "bwebb")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "lkriel")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "trisha")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "carlayeng")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "ginnna")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "kitty")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "sparkly")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "candizz")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "heartly")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "simone")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "romania")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "lucass")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "leroma")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("matcha", "schen")`);
+
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("surferdude", "jhansen")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("racedriver", "cdiogo")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("programmer", "jlimbada")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("post mortem", "ayano")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("boy bands", "bwebb")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("psycho", "lkriel")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("snacks", "trisha")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("good times", "carlayeng")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("bunnies", "ginnna")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("dogs", "kitty")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("bootcamp", "sparkly")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("veggies", "candizz")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("vegan", "heartly")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("animal lover", "simone")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("geography", "romania")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("science", "lucass")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("maths", "leroma")`);
+						DB.query(`INSERT INTO tags (tag, user) VALUES ("coding", "schen")`);
+					}
 					console.log('Created tags table');
 				});
 			}

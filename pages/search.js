@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
     if(!req.session.name) res.render('oops', {error: '2'});
     else {
         let db = new Searches();
-
         let tags = db.getUserTags(req.session.name);
 
         tags.then(function (ret) {
@@ -148,6 +147,10 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                             let match = false;
 
                             await userTags.then(function (usrTags) {
+
+                                // this will be needed when filtering client side
+                                users[i].tags = usrTags;
+
                                 let a = 0;
                                 if (!usrTags[0]) match = true;
                                 else {
@@ -172,21 +175,22 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                         // ADVANCED FILTERS BELOW
                         if (req.body.advanced_search) {
                             // advanced age gap search - user age must be within the determined gap, bigger or smaller
-                            const ageGap = req.body.age;
-                            const fameGap = req.body.rating;
-                            if (req.body.age && ((users[i].age > currUser.age + ageGap) || (users[i].age < currUser.age - ageGap))) {
+                            const ageGap = parseInt(req.body.age);
+                            const fameGap = parseInt(req.body.rating);
+
+                            if (req.body.age !== undefined && ((users[i].age > currUser.age + ageGap) || (users[i].age < currUser.age - ageGap))) {
                                 console.log('removed user not in age gap: ', users[i].username);
                                 users.splice(i, 1);
                                 break;
                             }
                             // advanced fame gap search - user fame must be within the determined gap, bigger or smaller
-                            if (req.body.rating && ((users[i].fame < currUser.fame - fameGap) || (users[i].fame > currUser.fame + fameGap))) {
+                            if (req.body.rating != undefined && ((users[i].fame < currUser.fame - fameGap) || (users[i].fame > currUser.fame + fameGap))) {
                                 console.log('removed user not in fame gap: ', users[i].username);
                                 users.splice(i, 1);
                                 break;
                             }
                             // advanced location search - users location must contain the sent string
-                            if (req.body.location) {
+                            if (req.body.location != undefined) {
                                 if (users[i].location) {
                                     if (!users[i].location.includes(req.body.location)) {
                                         console.log('removed users with a different location: ', users[i].username);
@@ -200,11 +204,15 @@ router.post('/fetchResults', bodyParser.urlencoded({extended: true}), function(r
                                 }
                             }
                             // advanced tag search - must match all tags that were sent in array
-                            if (req.body.color) {
+                            if (req.body.color != undefined) {
                                 let usrTags = db.getUserTags(users[i].username);
                                 let a = 0;
 
                                 await usrTags.then(function (userTags) {
+
+                                    // this will be used when filtering client side
+                                    users[i].tags = userTags;
+
                                     while (req.body.color[a]) {
                                         if (userTags && userTags.includes(req.body.color[a]))
                                             a++;

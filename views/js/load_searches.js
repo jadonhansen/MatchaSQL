@@ -203,9 +203,7 @@ function fetch_advanced() {
 	// obtain checked tags
 	while (globalTags[i]) {
 		let check = document.getElementById(globalTags[i]).checked;
-		if (check) {
-			tagArr.push(globalTags[i]);
-		}
+		if (check) tagArr.push(globalTags[i]);
 		i++;
 	}
 
@@ -260,7 +258,7 @@ function order_results() {
 	const orderInput = document.getElementById('slctOrdr').value;
 
 	$('#searchResultsBox').html('');
-	orderedArr = new Array;
+	let orderedArr = new Array;
 	let loadStr;
 
 	// check if the globalRes has been filtered - if true then order the filteredRes
@@ -295,8 +293,8 @@ function compareValues(key, order) {
 		let comparison = 0;
 
 		if (key == 'location') {
-			cityOne = a[key].split(',');
-			cityTwo = b[key].split(',');
+			let cityOne = a[key].split(',');
+			let cityTwo = b[key].split(',');
 			propertyOne = cityOne[0].trim();
 			propertyTwo = cityTwo[0].trim();
 		}
@@ -322,27 +320,27 @@ function filter_results() {
 		while (allUsers[i]) {
 			let match = false;
 			let a = 0;
-			while (globalCurrUser.tags[a]) {
-				if (allUsers[i].tags && allUsers[i].tags.includes(globalCurrUser.tags[a])) {
-					match = true;
-				}
+			while (globalTags[a]) {
+				if (allUsers[i].tags && allUsers[i].tags.includes(globalTags[a])) match = true;
 				a++;
 			}
-			if (match !== true) {
+			if (match !== true) allUsers.splice(i, 1);
+			else i++;
+		}
+	} else if (filterInput == 'location') {
+		while (allUsers[i]) {
+			if (allUsers[i].location.includes(globalCurrUser.location)) {
+				console.log('removed user from allUsers array due to filtering: ', allUsers[i].username);
 				allUsers.splice(i, 1);
-			} else {
-				i++;
-			}
+			} else i++;
 		}
 	} else {
 		while (allUsers[i]) {
 			if (allUsers[i][filterInput] !== globalCurrUser[filterInput]) {
 				console.log('removed user from allUsers array due to filtering: ', allUsers[i].username);
 				allUsers.splice(i, 1);
-			} else {
-				i++;
-			}
-		};
+			} else i++;
+		}
 	}
 	// save filtered results in global array
 	filteredRes = [...allUsers];
