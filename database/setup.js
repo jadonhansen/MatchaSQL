@@ -113,19 +113,19 @@ var setupTables = function setupTables() {
 
 							// Other users
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("heartly", "lerom@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerom", "Centa", "Other", 26, "Male", "new things", "Cape Town", 1, 0, 1)`);
+							VALUES ("heartly", "lerom@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerom", "Centa", "Other", 26, "Male", "new things", "Cape Town", 1, 0, 1)`);
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("simone", "simon@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Simone", "Tesla", "Other", 21, "Male", "gadgetyyy", "Cape Town", 1, 0, 1)`);
+							VALUES ("simone", "simon@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Simone", "Tesla", "Other", 21, "Male", "gadgetyyy", "Cape Town", 1, 0, 1)`);
 
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("romania", "roman@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Romania", "Retricia", "Other", 29, "Female", "trendyy", "Cape Town", 1, 0, 1)`);
+							VALUES ("romania", "roman@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Romania", "Retricia", "Other", 29, "Female", "trendyy", "Cape Town", 1, 0, 1)`);
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("lucass", "lucas@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lucase", "Gerard", "Other", 20, "Female", "horses 4 life", "Cape Town", 1, 0, 1)`);
+							VALUES ("lucass", "lucas@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lucase", "Gerard", "Other", 20, "Female", "horses 4 life", "Cape Town", 1, 0, 1)`);
 
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("leroma", "lerom@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerome", "Stjui", "Other", 19, "Bi-Sexual", "candy stores 'r life", "Cape Town", 1, 0, 1)`);
+							VALUES ("leroma", "lerom@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Lerome", "Stjui", "Other", 19, "Bi-Sexual", "candy stores 'r life", "Cape Town", 1, 0, 1)`);
 							DB.query(`INSERT INTO users (username, email, password, name, surname, gender, age, prefferances, bio, location, location_status, fame, isverified)
-							VALUES ("schen", "schenn@gmail,com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Schen", "Zintju", "Other", 28, "Bi-Sexual", "big city life", "Cape Town", 1, 0, 1)`);
+							VALUES ("schen", "schenn@gmail.com", "$2b$10$przJhQe.QRtGs6YpgtTNpuhagVKMWgQVxssyw0zVsRWH0bpwvxMsu", "Schen", "Zintju", "Other", 28, "Bi-Sexual", "big city life", "Cape Town", 1, 0, 1)`);
 
 							console.log('Created user table');
 						}
