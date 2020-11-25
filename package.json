@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gstrauss42/matcha.git"
+    "url": "git+https://github.com/jadonhansen/MatchaSQL/matcha.git"
   },
-  "author": "gstrauss jhansen",
+  "author": "jhansen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gstrauss42/matcha/issues"
+    "url": "https://github.com/jadonhansen/MatchaSQL/issues"
   },
-  "homepage": "https://github.com/gstrauss42/matcha#readme",
+  "homepage": "https://github.com/jadonhansen/MatchaSQL#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "base64-stream": "^1.0.0",
