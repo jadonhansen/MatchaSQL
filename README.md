@@ -31,7 +31,26 @@ quite refreshing to use with your match!
 5. Navigate to `localhost:3306` in your browser, create and verify your account, and get matching!
 
 ## Architecture:
-Stuff
+This project follows the MVC design pattern.
+
+1. Model Layer:
+	- Consist of the SQL database where all user data is stored.
+	- Any functions that assist in creation of the database.
+	- Certain functions can be called to update the View Layer.
+	- See `database/*.js`
+2. View Layer:
+	- Any PUG template files.
+	- Serves as the user interface, with interactive elements.
+	- Can be updated with 'fresh' information from the DB if anything is updated.
+	- See `views/*.pug`
+3. Controller Layer:
+	- Any JavaScript files that contain functions used in user input.
+	- Functions capable of manipulating the Model Layer depending on user input.
+	- See `pages/*.js`
+
+4. Static Assets:
+	- Various static assets (CSS, Images, Fonts) used around the site.
+	- See `public/*`
 
 ## Testing:
 The [Marking Sheet](https://github.com/wethinkcode-students/corrections_42_curriculum/blob/master/matcha.markingsheet.pdf) will be used as a testing outline. A more simplified Outline and Expected Outcomes are listed below.
