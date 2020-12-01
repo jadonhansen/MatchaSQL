@@ -11,6 +11,7 @@ quite refreshing to use with your match!
 - CSS
 - JavaScript
 - AJAX
+- PUG
 
 ## Requirements:
 - npm
