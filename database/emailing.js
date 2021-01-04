@@ -1,18 +1,19 @@
 const nodemailer = require('nodemailer');
 
-// email config
-var transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
-	port: 587,
-	secure: false,
-	auth: {
-		user: process.env.smtp,
-		pass: process.env.password
-	}
-});
-
 // used to email the user when they register for the first time
 var confirm_email = function confirm_email(email, code) {
+
+	// email config
+	var transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false,
+		auth: {
+			user: process.env.smtp,
+			pass: process.env.password
+		}
+	});
+
 	return new Promise ( (resolve, reject) => {
 		if (!email || email == undefined || !code || code == undefined)
 			reject ("No valid email given.");
@@ -33,6 +34,18 @@ var confirm_email = function confirm_email(email, code) {
 
 // used to email the user a reset link when the user forgets their password
 var password_reset_link = function password_reset_link(email, code) {
+
+	// email config
+	var transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false,
+		auth: {
+			user: process.env.smtp,
+			pass: process.env.password
+		}
+	});
+
 	return new Promise ( (resolve, reject) => {
 		if (!email || email == undefined || !code || code == undefined)
 			reject ("No valid email given.");
@@ -52,6 +65,18 @@ var password_reset_link = function password_reset_link(email, code) {
 }
 
 var updatedEmailLink = function updatedEmailLink(email, code) {
+
+	// email config
+	var transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false,
+		auth: {
+			user: process.env.smtp,
+			pass: process.env.password
+		}
+	});
+
 	return new Promise ( (resolve, reject) => {
 		if (!email || email == undefined || !code || code == undefined)
 			reject ("No valid email given.");
