@@ -14,7 +14,7 @@ quite refreshing to use with your match!
 - PUG
 
 ## Requirements:
-- npm
+- NodeJS & npm
 - MAMP, for the MySQL server
 - Most other Node requirements can be found in the `package.json` file
 
