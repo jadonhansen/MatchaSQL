@@ -26,15 +26,16 @@ quite refreshing to use with your match!
 ## Developer Setup:
 1. [Install MAMP](https://www.mamp.info/en/downloads/)
 2. Run the MAMP server, no configuration necessary, we are simply using the pre-configured SQL server.
-3. Configure an `.env` file in the project root directory:
+3. Clone this repository to a place of your choosing.
+4. Configure an `.env` file in the project root directory:
 	- `port=3306`
 	- `secret=128936GS71gd92JKJAF3701237`
 	- `path=path/to/MatchaSQL/uploads/` < Ensure this path is correct
 	- `TOKEN= ` < IPInfo token for IP tracking (this will require a free [IPInfo account](https://ipinfo.io/))
-	- `smtp= ` < gmail account for sending emails
-	- `password= `< gmail account password
-4. In the project root directory, run `npm install`, followed by `npm start`
-5. Navigate to `localhost:3306` in your browser, create and verify your account, and get matching!
+	- `smtp= ` < Gmail account for sending emails
+	- `password= `< Gmail account password
+5. In the project root directory, run `npm install`, followed by `npm start`
+6. Navigate to `http://localhost:3306` in your browser, create and verify your account, and get matching!
 
 ## Architecture:
 This project follows the MVC design pattern.
