@@ -30,7 +30,7 @@ quite refreshing to use with your match!
 4. Configure an `.env` file in the project root directory:
 	- `port=3306`
 	- `secret=128936GS71gd92JKJAF3701237`
-	- `path=path/to/MatchaSQL/uploads/` < Ensure this path is correct
+	- `path=absolute/path/to/MatchaSQL/uploads/` < Ensure this path is correct
 	- `TOKEN= ` < IPInfo token for IP tracking (this will require a free [IPInfo account](https://ipinfo.io/))
 	- `smtp= ` < Gmail account for sending emails
 	- `password= `< Gmail account password
